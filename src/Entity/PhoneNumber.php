@@ -65,6 +65,10 @@ final class PhoneNumber
         if (empty($areaCode) && empty($subscriberNumber)) {
             return '';
         }
+        if (empty($areaCode)) {
+            $areaCode = ''; // remove '0' values
+            $format = \preg_replace('/\(\s?a\s?\)\s?/', '', $format);
+        }
         if (!empty($countryCode) && \strpos($format, 'c') !== false) {
             $areaCode = \ltrim($areaCode, '0');
         }
