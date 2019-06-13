@@ -57,7 +57,7 @@ final class PhoneNumber
     public function toString($format = null)
     {
         if ($format === null || !\is_string($format)) {
-            $format = 'c(a)s';
+            $format = 'c (a) s';
         }
         $countryCode = $this->dataBag->get('phone.countryCode');
         $areaCode = $this->dataBag->get('phone.areaCode');
