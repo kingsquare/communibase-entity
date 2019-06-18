@@ -18,9 +18,9 @@ final class PhoneNumber
     /**
      * PhoneNumber constructor.
      *
-     * @param array|null $phoneNumberData
+     * @param array $phoneNumberData
      */
-    private function __construct(array $phoneNumberData = null)
+    private function __construct(array $phoneNumberData)
     {
         $this->dataBag = DataBag::create();
         if (empty($phoneNumberData['type'])) {
@@ -36,6 +36,9 @@ final class PhoneNumber
      */
     public static function fromPhoneNumberData(array $phoneNumberData = null)
     {
+        if ($phoneNumberData === null) {
+            $phoneNumberData = [];
+        }
         return new self($phoneNumberData);
     }
 

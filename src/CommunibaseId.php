@@ -67,9 +67,7 @@ final class CommunibaseId implements \JsonSerializable
     public static function toObjectQueryArray(array $ids)
     {
         return array_reduce($ids, static function (array $carry, CommunibaseId $id) {
-            if ($id !== null) {
-                $carry[] = ['$ObjectId' => $id->toString()];
-            }
+            $carry[] = ['$ObjectId' => $id->toString()];
             return $carry;
         }, []);
     }
@@ -81,9 +79,7 @@ final class CommunibaseId implements \JsonSerializable
      */
     public static function toStrings(array $ids)
     {
-        return array_filter(array_map(static function (CommunibaseId $id) {
-            return (string)$id;
-        }, $ids));
+        return array_filter(array_map('strval', $ids));
     }
 
     /**

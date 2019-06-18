@@ -2,6 +2,7 @@
 
 namespace Communibase\Entity;
 
+use Communibase\CommunibaseId;
 use Communibase\DataBag;
 
 /**
@@ -18,12 +19,12 @@ final class Address
     private $dataBag;
 
     /**
-     * @param array|null $addressData
+     * @param array $addressData
      */
-    private function __construct(array $addressData = null)
+    private function __construct(array $addressData)
     {
         $this->dataBag = DataBag::create();
-        if ($addressData === null) {
+        if ($addressData === []) {
             return;
         }
         $this->dataBag->addEntityData('address', $addressData);
@@ -36,6 +37,9 @@ final class Address
      */
     public static function fromAddressData(array $addressData = null)
     {
+        if ($addressData === null) {
+            $addressData = [];
+        }
         return new self($addressData);
     }
 
@@ -45,6 +49,14 @@ final class Address
     public function getProperty()
     {
         return $this->dataBag->get('address.property');
+    }
+
+    /**
+     * @param string $property
+     */
+    public function setProperty($property)
+    {
+        $this->dataBag->set('address.property', $property);
     }
 
     /**
@@ -138,11 +150,24 @@ final class Address
     }
 
     /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->dataBag->set('address.type', (string)$type);
+    }
+
+    /**
      * @return CommunibaseId
      */
     public function getId()
     {
         return CommunibaseId::fromString($this->dataBag->get('address._id'));
+    }
+
+    public function __toString()
+    {
+        return $this->toString();
     }
 
     /**
@@ -155,9 +180,20 @@ final class Address
         if ($this->getState() === null) {
             return '';
         }
-        return implode($singleLine ? ', ' : PHP_EOL, array_filter([
-            implode(' ', array_filter([$this->getStreet(), $this->getStreetNumber()])),
-            implode(', ', array_filter([$this->getZipcode(), $this->getCity()]))
+        $lines = [
+            array_filter([$this->getStreet(), $this->getStreetNumber()]),
+            array_filter([$this->getZipcode(), $this->getCity()]),
+        ];
+
+        if ($singleLine) {
+            return implode(', ', array_filter([
+                implode(' ', $lines[0]),
+                implode(', ', $lines[1]),
+            ]));
+        }
+        return implode(PHP_EOL, array_filter([
+            implode(' ', $lines[0]),
+            implode(' ', $lines[1]),
         ]));
     }
 
@@ -175,6 +211,16 @@ final class Address
             'lat' => $lat,
             'lng' => $lng,
         ];
+    }
+
+    /**
+     * @param string|float $latitude
+     * @param string|float $longitude
+     */
+    public function setGeoLocation($latitude, $longitude)
+    {
+        $this->dataBag->set('address.latitude', $latitude);
+        $this->dataBag->set('address.longitude', $longitude);
     }
 
     /**
