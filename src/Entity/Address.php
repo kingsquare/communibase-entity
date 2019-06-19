@@ -198,7 +198,7 @@ final class Address
     }
 
     /**
-     * @return array|null
+     * @return float[]|null
      */
     public function getGeoLocation()
     {
@@ -208,17 +208,21 @@ final class Address
             return null;
         }
         return [
-            'lat' => $lat,
-            'lng' => $lng,
+            'lat' => (float)$lat,
+            'lng' => (float)$lng,
         ];
     }
 
     /**
-     * @param string|float $latitude
-     * @param string|float $longitude
+     * @param float $latitude
+     * @param float $longitude
      */
     public function setGeoLocation($latitude, $longitude)
     {
+        $latitude = (float)$latitude;
+        $longitude = (float)$longitude;
+        $this->guardAgainstInvalidLatLong($latitude, $longitude);
+
         $this->dataBag->set('address.latitude', $latitude);
         $this->dataBag->set('address.longitude', $longitude);
     }
@@ -245,5 +249,16 @@ final class Address
             return null;
         }
         return $this->dataBag->getState('address');
+    }
+
+    /**
+     * @param float $latitude
+     * @param float $longitude
+     */
+    private function guardAgainstInvalidLatLong($latitude, $longitude)
+    {
+        if ($latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
+            throw new \UnexpectedValueException(\sprintf('Invalid latitude/longitude: %s, %s', $latitude, $longitude));
+        }
     }
 }
