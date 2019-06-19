@@ -14,14 +14,14 @@ use Communibase\Exception\InvalidIdException;
 final class CommunibaseId implements \JsonSerializable
 {
     /**
-     * @var string|null
+     * @var string
      */
     private $id;
 
     /**
-     * @param string|null $id
+     * @param string $id
      */
-    private function __construct($id = null)
+    private function __construct($id)
     {
         $this->id = $id;
     }
@@ -31,7 +31,7 @@ final class CommunibaseId implements \JsonSerializable
      */
     public static function create()
     {
-        return new self();
+        return new self('');
     }
 
     /**
@@ -42,6 +42,9 @@ final class CommunibaseId implements \JsonSerializable
      */
     public static function fromString($string = null)
     {
+        if ($string === null) {
+            $string = '';
+        }
         self::guardAgainstInvalidIdString($string);
         return new self($string);
     }
@@ -54,9 +57,7 @@ final class CommunibaseId implements \JsonSerializable
      */
     public static function fromStrings(array $strings)
     {
-        return array_map(static function ($string) {
-            return self::fromString($string);
-        }, $strings);
+        return array_map([__CLASS__, 'fromString'], $strings);
     }
 
     /**
@@ -87,7 +88,7 @@ final class CommunibaseId implements \JsonSerializable
      */
     public function __toString()
     {
-        return (string)$this->id;
+        return $this->id;
     }
 
     /**
@@ -103,7 +104,7 @@ final class CommunibaseId implements \JsonSerializable
      */
     public function isEmpty()
     {
-        return empty($this->id);
+        return $this->id === '';
     }
 
     /**
@@ -148,17 +149,21 @@ final class CommunibaseId implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return (string)$this->id;
+        return $this->id;
     }
 
     /**
-     * @param string|null $id
+     * @param string $id
      *
      * @throws InvalidIdException
      */
     private static function guardAgainstInvalidIdString($id)
     {
-        if (!empty($id) && !preg_match('/^[a-f0-9]{24}$/', $id)) {
+        if (!is_string($id)) {
+            throw new InvalidIdException('Invalid ID (type should be string, ' . gettype($id). ' given)');
+        }
+
+        if ($id !== '' && !preg_match('/^[a-f0-9]{24}$/', $id)) {
             throw new InvalidIdException('Invalid ID (' . $id . ')');
         }
     }

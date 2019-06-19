@@ -32,16 +32,21 @@ class CommunibaseIdTest extends TestCase
         $this->assertEquals(self::VALID_ID_STRING, $id->toString());
     }
 
-    public function invalidStrings()
+    public function invalidStringSources()
     {
         return [
-            ['foo'],
-            ['5c3e042951f0be010443a1dg']
+            'not a string (int)' => [1],
+            'not a string (array)' => [[]],
+            'not a string (bool)' => [true],
+            'not a string (float)' => [1.1001],
+            'not a string (object)' => [new \stdClass],
+            'string - invalid format' => ['foo'],
+            'string - invalid char' => ['5c3e042951f0be010443a1dg']
         ];
     }
 
     /**
-     * @dataProvider invalidStrings
+     * @dataProvider invalidStringSources
      * @expectedException \Communibase\Exception\InvalidIdException
      *
      * @param $string
