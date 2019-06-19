@@ -35,7 +35,7 @@ final class CommunibaseId implements \JsonSerializable
     }
 
     /**
-     * @param $string |null
+     * @param string|null $string
      *
      * @return CommunibaseId
      * @throws InvalidIdException

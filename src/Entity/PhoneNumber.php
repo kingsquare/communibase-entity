@@ -43,7 +43,7 @@ final class PhoneNumber
     }
 
     /**
-     * @param string|null $format defaults to 'c(a)s'
+     * @param string $format defaults to 'c(a)s'
      * The following characters are recognized in the format parameter string:
      * <table><tr>
      * <td>Character&nbsp;</td><td>Description</td>
@@ -57,9 +57,9 @@ final class PhoneNumber
      *
      * @return string
      */
-    public function toString($format = null)
+    public function toString($format = 'c (a) s')
     {
-        if ($format === null || !\is_string($format)) {
+        if (!\is_string($format)) {
             $format = 'c (a) s';
         }
         $countryCode = $this->dataBag->get('phone.countryCode');
@@ -70,13 +70,13 @@ final class PhoneNumber
         }
         if (empty($areaCode)) {
             $areaCode = ''; // remove '0' values
-            $format = \preg_replace('/\(\s?a\s?\)\s?/', '', $format);
+            $format = (string) \preg_replace('/\(\s?a\s?\)\s?/', '', $format);
         }
         if (!empty($countryCode) && \strpos($format, 'c') !== false) {
             $areaCode = \ltrim($areaCode, '0');
         }
         return trim(
-            \preg_replace_callback(
+            (string) \preg_replace_callback(
                 '![cas]!',
                 static function (array $matches) use ($countryCode, $areaCode, $subscriberNumber) {
                     switch ($matches[0]) {
@@ -136,7 +136,7 @@ final class PhoneNumber
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getState()
     {

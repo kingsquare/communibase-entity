@@ -87,7 +87,7 @@ final class Email
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getState()
     {

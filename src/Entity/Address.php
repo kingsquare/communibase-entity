@@ -198,7 +198,7 @@ final class Address
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getGeoLocation()
     {
@@ -237,7 +237,7 @@ final class Address
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getState()
     {
