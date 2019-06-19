@@ -18,9 +18,9 @@ final class Email
     private $dataBag;
 
     /**
-     * @param array|null $emailAddressData
+     * @param array $emailAddressData
      */
-    private function __construct(array $emailAddressData = null)
+    private function __construct(array $emailAddressData)
     {
         if (empty($emailAddressData['type'])) {
             $emailAddressData['type'] = 'private';
@@ -36,6 +36,9 @@ final class Email
      */
     public static function fromEmailAddressData(array $emailAddressData = null)
     {
+        if ($emailAddressData === null) {
+            $emailAddressData = [];
+        }
         return new self($emailAddressData);
     }
 
@@ -84,7 +87,7 @@ final class Email
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getState()
     {

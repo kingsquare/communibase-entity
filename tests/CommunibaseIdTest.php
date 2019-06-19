@@ -32,16 +32,21 @@ class CommunibaseIdTest extends TestCase
         $this->assertEquals(self::VALID_ID_STRING, $id->toString());
     }
 
-    public function invalidStrings()
+    public function invalidStringSources()
     {
         return [
-            ['foo'],
-            ['5c3e042951f0be010443a1dg']
+            'not a string (int)' => [1],
+            'not a string (array)' => [[]],
+            'not a string (bool)' => [true],
+            'not a string (float)' => [1.1001],
+            'not a string (object)' => [new \stdClass],
+            'string - invalid format' => ['foo'],
+            'string - invalid char' => ['5c3e042951f0be010443a1dg']
         ];
     }
 
     /**
-     * @dataProvider invalidStrings
+     * @dataProvider invalidStringSources
      * @expectedException \Communibase\Exception\InvalidIdException
      *
      * @param $string
@@ -65,12 +70,52 @@ class CommunibaseIdTest extends TestCase
         $this->assertEquals($expected, CommunibaseId::toObjectQueryArray($communibaseIds));
     }
 
-    public function test_we_can_retrieve_the_create_date()
+    public function test_we_can_retrieve_the_createdate()
     {
         $id = CommunibaseId::create();
         $this->assertNull($id->getCreateDate());
 
         $id = CommunibaseId::fromString(self::VALID_ID_STRING);
-        $this->assertEquals(new \DateTimeImmutable('2019-01-15T16:02:54.000000+0000'), $id->getCreateDate());
+        $this->assertEquals(
+            new \DateTimeImmutable('2019-01-15T16:02:54.000000+0000'),
+            $id->getCreateDate()
+        );
+    }
+
+    public function test_it_can_be_compared_using_equals()
+    {
+        $id = CommunibaseId::fromString(self::VALID_ID_STRING);
+        $id2 = CommunibaseId::fromString(self::VALID_ID_STRING);
+        $this->assertTrue($id->equals($id2));
+
+        $id2 = CommunibaseId::fromString(self::VALID_ID_STRING_2);
+        $this->assertFalse($id->equals($id2));
+    }
+
+    public function test_it_can_look_itself_up_in_an_array()
+    {
+        $id = CommunibaseId::fromString(self::VALID_ID_STRING);
+        $this->assertTrue($id->inArray([self::VALID_ID_STRING_2, self::VALID_ID_STRING]));
+        $this->assertFalse($id->inArray([self::VALID_ID_STRING_2]));
+    }
+
+    public function test_it_can_convert_an_array_to_strings()
+    {
+        $this->assertSame(
+            [self::VALID_ID_STRING, self::VALID_ID_STRING_2
+                ],
+            CommunibaseId::toStrings([
+                CommunibaseId::fromString(self::VALID_ID_STRING),
+                CommunibaseId::fromString(self::VALID_ID_STRING_2),
+            ])
+        );
+    }
+
+    public function test_it_can_be_json_encoded()
+    {
+        $this->assertSame(
+            '"' . self::VALID_ID_STRING . '"',
+            \json_encode(CommunibaseId::fromString(self::VALID_ID_STRING))
+        );
     }
 }

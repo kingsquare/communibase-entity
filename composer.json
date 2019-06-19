@@ -1,33 +1,39 @@
 {
-    "name": "kingsquare/communibase-entity",
-    "description": "Communibase entities",
-    "keywords": [
-        "communibase",
-        "entities"
-    ],
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Misha van Tol",
-            "email": "mishavantol@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.5",
-        "kingsquare/communibase-databag": "^1.0"
+  "name": "kingsquare/communibase-entity",
+  "description": "Communibase entities",
+  "keywords": [
+    "communibase",
+    "entities"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Misha van Tol",
+      "email": "mishavantol@gmail.com"
     },
-    "autoload": {
-        "psr-4": {
-            "Communibase\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Communibase\\Tests\\": "test/"
-        }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5"
+    {
+      "name": "Robin Speekenbrink",
+      "email": "robin@kingsquare.nl"
     }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "kingsquare/communibase-databag": "^1.1",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Communibase\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Communibase\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5",
+    "phpstan/phpstan-shim": "^0.11.8"
+  }
 }
