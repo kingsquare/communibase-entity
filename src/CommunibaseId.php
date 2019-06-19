@@ -80,7 +80,7 @@ final class CommunibaseId implements \JsonSerializable
      */
     public static function toStrings(array $ids)
     {
-        return array_filter(array_map('strval', $ids));
+        return \array_values(array_filter(array_map('strval', $ids)));
     }
 
     /**
@@ -96,7 +96,7 @@ final class CommunibaseId implements \JsonSerializable
      */
     public function toString()
     {
-        return (string)$this;
+        return $this->__toString();
     }
 
     /**
