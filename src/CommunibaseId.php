@@ -74,6 +74,7 @@ final class CommunibaseId implements \JsonSerializable
     }
 
     /**
+     * @todo strict type checking for input $ids (to reject non CommunibaseId values)
      * @param CommunibaseId[] $ids
      *
      * @return array|string[]
@@ -118,6 +119,8 @@ final class CommunibaseId implements \JsonSerializable
     }
 
     /**
+     * @todo strict type checking for input $ids (to reject non CommunibaseId values)
+     *
      * @param CommunibaseId[] $ids
      *
      * @return bool
