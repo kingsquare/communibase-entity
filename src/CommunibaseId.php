@@ -95,7 +95,7 @@ final class CommunibaseId implements \JsonSerializable
      */
     public function toString()
     {
-        return (string)$this;
+        return $this->__toString();
     }
 
     /**
