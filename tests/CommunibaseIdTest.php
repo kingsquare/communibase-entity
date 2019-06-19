@@ -49,7 +49,7 @@ class CommunibaseIdTest extends TestCase
      * @dataProvider invalidStringSources
      * @expectedException \Communibase\Exception\InvalidIdException
      *
-     * @param $string
+     * @param mixed $string
      */
     public function test_it_cant_be_created_from_an_invalid_string($string)
     {
@@ -95,8 +95,8 @@ class CommunibaseIdTest extends TestCase
     public function test_it_can_look_itself_up_in_an_array()
     {
         $id = CommunibaseId::fromString(self::VALID_ID_STRING);
-        $this->assertTrue($id->inArray([self::VALID_ID_STRING_2, self::VALID_ID_STRING]));
-        $this->assertFalse($id->inArray([self::VALID_ID_STRING_2]));
+        $this->assertTrue($id->inArray([CommunibaseId::fromString(self::VALID_ID_STRING), CommunibaseId::fromString(self::VALID_ID_STRING)]));
+        $this->assertFalse($id->inArray([CommunibaseId::fromString(self::VALID_ID_STRING_2)]));
     }
 
     public function test_it_can_convert_an_array_to_strings()

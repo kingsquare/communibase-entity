@@ -1,6 +1,6 @@
 <?php
 
-namespace Communibase\Entity\Tests;
+namespace Communibase\Tests\Entity;
 
 use Communibase\Entity\Address;
 use PHPUnit\Framework\TestCase;
@@ -36,8 +36,8 @@ class AddressTest extends TestCase
 
     /**
      * @dataProvider setSetterProvider
-     * @param $property
-     * @param $value
+     * @param string $property
+     * @param mixed $value
      */
     public function test_setters($property, $value)
     {

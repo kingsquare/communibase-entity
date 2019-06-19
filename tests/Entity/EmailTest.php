@@ -1,6 +1,6 @@
 <?php
 
-namespace Communibase\Entity\Tests;
+namespace Communibase\Tests\Entity;
 
 use Communibase\Entity\Address;
 use Communibase\Entity\Email;
