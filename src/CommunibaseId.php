@@ -74,13 +74,13 @@ final class CommunibaseId implements \JsonSerializable
     }
 
     /**
-     * @todo strict type checking for input $ids (to reject non CommunibaseId values)
      * @param CommunibaseId[] $ids
      *
      * @return array|string[]
      */
     public static function toStrings(array $ids)
     {
+        self::guardAgainstNonCommunibaseIdObjects($ids);
         return \array_values(array_filter(array_map('strval', $ids)));
     }
 
@@ -119,14 +119,13 @@ final class CommunibaseId implements \JsonSerializable
     }
 
     /**
-     * @todo strict type checking for input $ids (to reject non CommunibaseId values)
-     *
      * @param CommunibaseId[] $ids
      *
      * @return bool
      */
     public function inArray(array $ids)
     {
+        self::guardAgainstNonCommunibaseIdObjects($ids);
         return in_array($this->id, self::toStrings($ids), true);
     }
 
@@ -163,11 +162,23 @@ final class CommunibaseId implements \JsonSerializable
     private static function guardAgainstInvalidIdString($id)
     {
         if (!is_string($id)) {
-            throw new InvalidIdException('Invalid ID (type should be string, ' . gettype($id). ' given)');
+            throw new InvalidIdException('Invalid ID (type should be string, ' . gettype($id) . ' given)');
         }
 
         if ($id !== '' && !preg_match('/^[a-f0-9]{24}$/', $id)) {
             throw new InvalidIdException('Invalid ID (' . $id . ')');
+        }
+    }
+
+    /**
+     * @param array $ids
+     */
+    private static function guardAgainstNonCommunibaseIdObjects(array $ids)
+    {
+        foreach ($ids as $id) {
+            if (!$id instanceof self) {
+                throw new \UnexpectedValueException('Non CommunibaseId object found in array.');
+            }
         }
     }
 }

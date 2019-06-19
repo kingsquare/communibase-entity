@@ -95,15 +95,38 @@ class CommunibaseIdTest extends TestCase
     public function test_it_can_look_itself_up_in_an_array()
     {
         $id = CommunibaseId::fromString(self::VALID_ID_STRING);
-        $this->assertTrue($id->inArray([CommunibaseId::fromString(self::VALID_ID_STRING), CommunibaseId::fromString(self::VALID_ID_STRING)]));
+        $this->assertTrue(
+            $id->inArray([
+                CommunibaseId::fromString(self::VALID_ID_STRING),
+                CommunibaseId::fromString(self::VALID_ID_STRING)
+            ])
+        );
         $this->assertFalse($id->inArray([CommunibaseId::fromString(self::VALID_ID_STRING_2)]));
+    }
+
+    public function invalidCommunibaseIdArrayProvider()
+    {
+        return [
+            [[CommunibaseId::fromString(self::VALID_ID_STRING), null]],
+            [[CommunibaseId::fromString(self::VALID_ID_STRING), 'foo']],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidCommunibaseIdArrayProvider
+     * @expectedException \UnexpectedValueException
+     *
+     * @param array $ids
+     */
+    public function test_communibaseId_array_contains_only_communibaseId_objects(array $ids)
+    {
+        CommunibaseId::toStrings($ids);
     }
 
     public function test_it_can_convert_an_array_to_strings()
     {
         $this->assertSame(
-            [self::VALID_ID_STRING, self::VALID_ID_STRING_2
-                ],
+            [self::VALID_ID_STRING, self::VALID_ID_STRING_2],
             CommunibaseId::toStrings([
                 CommunibaseId::fromString(self::VALID_ID_STRING),
                 CommunibaseId::fromString(self::VALID_ID_STRING_2),
