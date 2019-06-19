@@ -76,10 +76,10 @@ class AddressTest extends TestCase
     public function invalidGeolocationProvider()
     {
         return [
-            [-91, 0],
-            [91, 0],
-            [0, -181],
-            [0, 181],
+            [-91.0, 0.0],
+            [91.0, 0.0],
+            [0.0, -181.0],
+            [0.0, 181.0],
         ];
     }
 
@@ -87,8 +87,8 @@ class AddressTest extends TestCase
      * @dataProvider invalidGeolocationProvider
      * @expectedException \UnexpectedValueException
      *
-     * @param $latitude
-     * @param $longitude
+     * @param float $latitude
+     * @param float $longitude
      */
     public function test_we_cant_set_an_invalid_geolocation($latitude, $longitude)
     {
