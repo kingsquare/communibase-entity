@@ -202,6 +202,19 @@ final class Address
      */
     public function getGeoLocation()
     {
+        // native geo handling
+        if ($this->isGeoStorageUsingNatviePoint()) {
+            $point = $this->dataBag->get('address.point');
+            if (empty($point) || empty($point['coordinates']) || empty($point['coordinates'][0]) || empty($point['coordinates'][1])) {
+                return null;
+            }
+            return [
+                'lat' => (float)$point['coordinates'][1],
+                'lng' => (float)$point['coordinates'][0],
+            ];
+        }
+
+        // `old`-style
         $lat = $this->dataBag->get('address.latitude');
         $lng = $this->dataBag->get('address.longitude');
         if (!isset($lat, $lng)) {
@@ -223,8 +236,23 @@ final class Address
         $longitude = (float)$longitude;
         $this->guardAgainstInvalidLatLong($latitude, $longitude);
 
+        // native geo handling
+        if ($this->isGeoStorageUsingNatviePoint()) {
+            $this->dataBag->set('address.point', [
+                'coordinates' => [
+                    0 => $longitude,
+                    1 => $latitude,
+                ],
+            ]);
+            return;
+        }
         $this->dataBag->set('address.latitude', $latitude);
         $this->dataBag->set('address.longitude', $longitude);
+    }
+
+    private function isGeoStorageUsingNatviePoint()
+    {
+        return !empty($this->dataBag->get('address.point'));
     }
 
     /**

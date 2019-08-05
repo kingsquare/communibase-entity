@@ -57,7 +57,6 @@ class AddressTest extends TestCase
             ['city', 'Zandvoort'],
             ['countryCode', 'NL'],
             ['type', 'work'],
-            ['type', 'work'],
         ];
     }
 
@@ -70,6 +69,87 @@ class AddressTest extends TestCase
         $this->assertSame([
             'lat' => $lat,
             'lng' => $lng,
+        ], $address->getGeoLocation());
+    }
+
+    public function test_can_get_geolocation_using_point()
+    {
+        $lat = 52.36498073;
+        $lng = 4.55567032;
+        $address = Address::fromAddressData([
+            'point' => [
+                'coordinates' => [
+                    0 => $lng,
+                    1 => $lat,
+                ]
+            ],
+        ]);
+        $this->assertSame([
+            'lat' => $lat,
+            'lng' => $lng,
+        ], $address->getGeoLocation());
+    }
+
+    public function test_can_get_geolocation_using_old_style()
+    {
+        // old style
+        $lat = 52.36498073;
+        $lng = 4.55567032;
+        $address = Address::fromAddressData([
+            'latitude' => $lat,
+            'longitude' => $lng,
+        ]);
+        $this->assertSame([
+            'lat' => $lat,
+            'lng' => $lng,
+        ], $address->getGeoLocation());
+    }
+
+    public function test_can_get_geolocation_prefers_point()
+    {
+        // old style
+        $pointLat = 52.36498073;
+        $pointLng = 4.55567032;
+        $oldLat = 1.55567032;
+        $oldLng = 55.55567032;
+        $address = Address::fromAddressData([
+            'point' => [
+                'coordinates' => [
+                    0 => $pointLng,
+                    1 => $pointLat,
+                ]
+            ],
+            'latitude' => $oldLat,
+            'longitude' => $oldLng,
+        ]);
+        $this->assertSame([
+            'lat' => $pointLat,
+            'lng' => $pointLng,
+        ], $address->getGeoLocation());
+    }
+
+    public function test_can_set_geolocation_using_point()
+    {
+        $newLat = 52.36498073;
+        $newLng = 4.55567032;
+        $oldLat = 1.55567032;
+        $oldLng = 55.55567032;
+        $address = Address::fromAddressData([
+            'point' => [
+                'coordinates' => [
+                    0 => $oldLng,
+                    1 => $oldLat,
+                ]
+            ],
+        ]);
+        $this->assertSame([
+            'lat' => $oldLat,
+            'lng' => $oldLng,
+        ], $address->getGeoLocation());
+        $address->setGeoLocation($newLat, $newLng);
+        $this->assertSame([
+            'lat' => $newLat,
+            'lng' => $newLng,
         ], $address->getGeoLocation());
     }
 
