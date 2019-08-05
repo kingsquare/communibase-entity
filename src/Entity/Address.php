@@ -197,7 +197,7 @@ final class Address
             return '';
         }
         $lines = [
-            array_filter([$this->getStreet(), $this->getStreetNumber()]),
+            array_filter([$this->getStreet(), $this->getStreetNumber(), $this->getStreetNumberAddition()]),
             array_filter([$this->getZipcode(), $this->getCity()]),
         ];
 
