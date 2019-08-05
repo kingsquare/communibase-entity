@@ -94,6 +94,22 @@ final class Address
     /**
      * @return string
      */
+    public function getStreetNumberAddition()
+    {
+        return $this->dataBag->get('address.streetNumberAddition');
+    }
+
+    /**
+     * @param string $streetNumberAddition
+     */
+    public function setStreetNumberAddition($streetNumberAddition)
+    {
+        $this->dataBag->set('address.streetNumberAddition', (string)$streetNumberAddition);
+    }
+
+    /**
+     * @return string
+     */
     public function getZipcode()
     {
         return trim((string)$this->dataBag->get('address.zipcode'));

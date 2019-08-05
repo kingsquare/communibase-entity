@@ -18,6 +18,7 @@ class AddressTest extends TestCase
             'property' => 'The White House',
             'street' => 'Zandvoortselaan',
             'streetNumber' => '185',
+            'streetNumberAddition' => 'III',
             'zipcode' => '2042 XL',
             'city' => 'Zandvoort',
             'countryCode' => 'NL',
@@ -28,6 +29,7 @@ class AddressTest extends TestCase
         $this->assertSame($data['property'], $address->getProperty());
         $this->assertSame($data['street'], $address->getStreet());
         $this->assertSame($data['streetNumber'], $address->getStreetNumber());
+        $this->assertSame($data['streetNumberAddition'], $address->getStreetNumberAddition());
         $this->assertSame($data['zipcode'], $address->getZipcode());
         $this->assertSame($data['city'], $address->getCity());
         $this->assertSame($data['type'], $address->getType());
@@ -53,6 +55,7 @@ class AddressTest extends TestCase
             ['property', 'The White House'],
             ['street', 'Zandvoortselaan'],
             ['streetNumber', '185'],
+            ['streetNumberAddition', 'III'],
             ['zipcode', '2042 XL'],
             ['city', 'Zandvoort'],
             ['countryCode', 'NL'],
