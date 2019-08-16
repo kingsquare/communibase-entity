@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1.0
+- add streetNumberAddition
+
 ## 2.0.0
 - **[BC break]** Geolocation MUST use/return valid float values
 - **[BC break]** CommunibaseId array MUST contain only CommunibaseId objects
