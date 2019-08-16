@@ -94,6 +94,22 @@ final class Address
     /**
      * @return string
      */
+    public function getStreetNumberAddition()
+    {
+        return $this->dataBag->get('address.streetNumberAddition');
+    }
+
+    /**
+     * @param string $streetNumberAddition
+     */
+    public function setStreetNumberAddition($streetNumberAddition)
+    {
+        $this->dataBag->set('address.streetNumberAddition', (string)$streetNumberAddition);
+    }
+
+    /**
+     * @return string
+     */
     public function getZipcode()
     {
         return trim((string)$this->dataBag->get('address.zipcode'));
@@ -181,7 +197,7 @@ final class Address
             return '';
         }
         $lines = [
-            array_filter([$this->getStreet(), $this->getStreetNumber()]),
+            array_filter([$this->getStreet(), $this->getStreetNumber(), $this->getStreetNumberAddition()]),
             array_filter([$this->getZipcode(), $this->getCity()]),
         ];
 

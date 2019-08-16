@@ -18,6 +18,7 @@ class AddressTest extends TestCase
             'property' => 'The White House',
             'street' => 'Zandvoortselaan',
             'streetNumber' => '185',
+            'streetNumberAddition' => 'III',
             'zipcode' => '2042 XL',
             'city' => 'Zandvoort',
             'countryCode' => 'NL',
@@ -28,6 +29,7 @@ class AddressTest extends TestCase
         $this->assertSame($data['property'], $address->getProperty());
         $this->assertSame($data['street'], $address->getStreet());
         $this->assertSame($data['streetNumber'], $address->getStreetNumber());
+        $this->assertSame($data['streetNumberAddition'], $address->getStreetNumberAddition());
         $this->assertSame($data['zipcode'], $address->getZipcode());
         $this->assertSame($data['city'], $address->getCity());
         $this->assertSame($data['type'], $address->getType());
@@ -53,6 +55,7 @@ class AddressTest extends TestCase
             ['property', 'The White House'],
             ['street', 'Zandvoortselaan'],
             ['streetNumber', '185'],
+            ['streetNumberAddition', 'III'],
             ['zipcode', '2042 XL'],
             ['city', 'Zandvoort'],
             ['countryCode', 'NL'],
@@ -112,6 +115,24 @@ class AddressTest extends TestCase
         $this->assertSame('Zandvoortselaan 185, 2042 XL, Zandvoort', $address->toString());
         $this->assertSame('Zandvoortselaan 185, 2042 XL, Zandvoort', (string)$address);
         $this->assertSame('Zandvoortselaan 185' . PHP_EOL . '2042 XL Zandvoort', $address->toString(false));
+    }
+    public function test_it_can_be_stringed_with_a_streetNumberAddition()
+    {
+        $data = [
+            'property' => 'The White House',
+            'street' => 'Zandvoortselaan',
+            'streetNumber' => '185',
+            'streetNumberAddition' => 'III',
+            'zipcode' => '2042 XL',
+            'city' => 'Zandvoort',
+            'countryCode' => 'NL',
+            'type' => 'work',
+            '_id' => '5c3e042951f0be010443a1d2',
+        ];
+        $address = Address::fromAddressData($data);
+        $this->assertSame('Zandvoortselaan 185 III, 2042 XL, Zandvoort', $address->toString());
+        $this->assertSame('Zandvoortselaan 185 III, 2042 XL, Zandvoort', (string)$address);
+        $this->assertSame('Zandvoortselaan 185 III' . PHP_EOL . '2042 XL Zandvoort', $address->toString(false));
     }
 
     public function test_it_can_be_empty()
