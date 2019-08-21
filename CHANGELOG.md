@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.2.0
+- add dutch mobile with country code
+- make entities extendable (composition is not working here)
+
 ## 2.1.0
 - add streetNumberAddition
 
