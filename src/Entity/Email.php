@@ -32,7 +32,7 @@ class Email
     /**
      * @param array|null $emailAddressData
      *
-     * @return Email
+     * @return static
      */
     public static function fromEmailAddressData(array $emailAddressData = null)
     {

@@ -33,7 +33,7 @@ class Address
     /**
      * @param array|null $addressData
      *
-     * @return Address
+     * @return static
      */
     public static function fromAddressData(array $addressData = null)
     {

@@ -32,7 +32,7 @@ class PhoneNumber
     /**
      * @param array $phoneNumberData
      *
-     * @return self
+     * @return static
      */
     public static function fromPhoneNumberData(array $phoneNumberData = null)
     {
