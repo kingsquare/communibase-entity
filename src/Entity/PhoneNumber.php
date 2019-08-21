@@ -125,7 +125,11 @@ final class PhoneNumber
             $areaCode = reset($parts);
             $subscriberNumber = implode('', array_slice($parts, 1));
         } else {
-            $start = (!empty($value) && strpos($value, '06') === 0) ? 2 : 3;
+            if ($countryCode) {
+                $start = (!empty($value) && strpos($value, '6') === 0) ? 1 : 3;
+            } else {
+                $start = (!empty($value) && strpos($value, '06') === 0) ? 2 : 3;
+            }
             $areaCode = substr($value, 0, $start);
             $subscriberNumber = substr($value, $start);
         }

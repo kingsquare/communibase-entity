@@ -35,6 +35,7 @@ class PhoneNumberTest extends TestCase
             'invalid number' => ['test', '', '', ''],
             'prefixed number' => ['tel.:020-1234567', '', '020', '1234567'],
             'empty' => ['', '', '', ''],
+            'dutch mobile with country code' => ['+31(0)6123456789', '31', '6', '123456789'],
         ];
     }
 
