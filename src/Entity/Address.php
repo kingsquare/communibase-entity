@@ -40,7 +40,7 @@ class Address
         if ($addressData === null) {
             $addressData = [];
         }
-        return new self($addressData);
+        return new static($addressData);
     }
 
     /**

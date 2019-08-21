@@ -39,7 +39,7 @@ class PhoneNumber
         if ($phoneNumberData === null) {
             $phoneNumberData = [];
         }
-        return new self($phoneNumberData);
+        return new static($phoneNumberData);
     }
 
     /**

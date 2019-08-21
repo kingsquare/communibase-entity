@@ -39,7 +39,7 @@ class Email
         if ($emailAddressData === null) {
             $emailAddressData = [];
         }
-        return new self($emailAddressData);
+        return new static($emailAddressData);
     }
 
     /**
