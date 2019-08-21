@@ -8,19 +8,19 @@ use Communibase\DataBag;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-final class PhoneNumber
+class PhoneNumber
 {
     /**
      * @var DataBag
      */
-    private $dataBag;
+    protected $dataBag;
 
     /**
      * PhoneNumber constructor.
      *
      * @param array $phoneNumberData
      */
-    private function __construct(array $phoneNumberData)
+    protected function __construct(array $phoneNumberData)
     {
         $this->dataBag = DataBag::create();
         if (empty($phoneNumberData['type'])) {

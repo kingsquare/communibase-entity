@@ -10,17 +10,17 @@ use Communibase\DataBag;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-final class Email
+class Email
 {
     /**
      * @var DataBag
      */
-    private $dataBag;
+    protected $dataBag;
 
     /**
      * @param array $emailAddressData
      */
-    private function __construct(array $emailAddressData)
+    protected function __construct(array $emailAddressData)
     {
         if (empty($emailAddressData['type'])) {
             $emailAddressData['type'] = 'private';

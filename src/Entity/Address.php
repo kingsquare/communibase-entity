@@ -11,17 +11,17 @@ use Communibase\DataBag;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-final class Address
+class Address
 {
     /**
      * @var DataBag;
      */
-    private $dataBag;
+    protected $dataBag;
 
     /**
      * @param array $addressData
      */
-    private function __construct(array $addressData)
+    protected function __construct(array $addressData)
     {
         $this->dataBag = DataBag::create();
         if ($addressData === []) {
@@ -271,7 +271,7 @@ final class Address
      * @param float $latitude
      * @param float $longitude
      */
-    private function guardAgainstInvalidLatLong($latitude, $longitude)
+    protected function guardAgainstInvalidLatLong($latitude, $longitude)
     {
         if ($latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
             throw new \UnexpectedValueException(\sprintf('Invalid latitude/longitude: %s, %s', $latitude, $longitude));
