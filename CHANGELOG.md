@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.3.0
+- added backwards compatible handling of geo point native stuff
+
 ## 2.2.0
 - add dutch mobile with country code
 - make entities extendable (composition is not working here)
