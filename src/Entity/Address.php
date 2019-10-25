@@ -203,7 +203,7 @@ final class Address
     public function getGeoLocation()
     {
         // native geo handling
-        if ($this->isGeoStorageUsingNatviePoint()) {
+        if ($this->isGeoStorageUsingNativePoint()) {
             $point = $this->dataBag->get('address.point');
             if (empty($point) || empty($point['coordinates']) || empty($point['coordinates'][0]) || empty($point['coordinates'][1])) {
                 return null;
@@ -237,7 +237,7 @@ final class Address
         $this->guardAgainstInvalidLatLong($latitude, $longitude);
 
         // native geo handling
-        if ($this->isGeoStorageUsingNatviePoint()) {
+        if ($this->isGeoStorageUsingNativePoint()) {
             $this->dataBag->set('address.point', [
                 'coordinates' => [
                     0 => $longitude,
@@ -250,7 +250,7 @@ final class Address
         $this->dataBag->set('address.longitude', $longitude);
     }
 
-    private function isGeoStorageUsingNatviePoint()
+    private function isGeoStorageUsingNativePoint()
     {
         return !empty($this->dataBag->get('address.point'));
     }
