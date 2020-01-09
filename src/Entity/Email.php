@@ -30,6 +30,14 @@ class Email
     }
 
     /**
+     * @return static
+     */
+    public static function create()
+    {
+        return new static([]);
+    }
+
+    /**
      * @param array|null $emailAddressData
      *
      * @return static
@@ -45,11 +53,11 @@ class Email
     /**
      * @param string $emailAddress
      *
-     * @return Email
+     * @return static
      */
     public static function fromEmailAddress($emailAddress)
     {
-        return self::fromEmailAddressData([
+        return static::fromEmailAddressData([
             'emailAddress' => $emailAddress,
         ]);
     }

@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.3.1
+- add some named static constructors
+
 ## 2.3.0
 - added backwards compatible handling of geo point native stuff
 
@@ -22,9 +25,9 @@
 
 ## 1.0.1
 - detect/remove areacode parenthesis if areacode is empty
-- handle '0' areacode as if empty 
+- handle '0' areacode as if empty
 - added spaces to default phoneNumber format
-- changed changelog layout 
+- changed changelog layout
 
 ## 1.0.0
 

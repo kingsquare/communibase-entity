@@ -30,6 +30,14 @@ class PhoneNumber
     }
 
     /**
+     * @return static
+     */
+    public static function create()
+    {
+        return new static([]);
+    }
+
+    /**
      * @param array $phoneNumberData
      *
      * @return static
@@ -40,6 +48,19 @@ class PhoneNumber
             $phoneNumberData = [];
         }
         return new static($phoneNumberData);
+    }
+
+    /**
+     * @param string $phoneNumberString
+     *
+     * @return static
+     */
+    public static function fromString($phoneNumberString)
+    {
+        $phoneNumber = static::create();
+        $phoneNumber->setPhoneNumber($phoneNumberString);
+        return $phoneNumber;
+
     }
 
     /**

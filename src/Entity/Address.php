@@ -31,6 +31,14 @@ class Address
     }
 
     /**
+     * @return static
+     */
+    public static function create()
+    {
+        return new static([]);
+    }
+
+    /**
      * @param array|null $addressData
      *
      * @return static
