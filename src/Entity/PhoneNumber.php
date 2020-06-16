@@ -88,6 +88,10 @@ class PhoneNumber
         $countryCode = $this->dataBag->get('phone.countryCode');
         $areaCode = $this->dataBag->get('phone.areaCode');
         $subscriberNumber = $this->dataBag->get('phone.subscriberNumber');
+        if (!empty($countryCode) && \strpos($countryCode, '+') !== 0) {
+            $countryCode = '+' . $countryCode;
+        }
+
         if (empty($areaCode) && empty($subscriberNumber)) {
             return '';
         }
