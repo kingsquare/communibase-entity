@@ -3,6 +3,8 @@
 namespace Communibase\Entity;
 
 use Communibase\DataBag;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberUtil;
 
 /**
  * @author Kingsquare (source@kingsquare.nl)
@@ -14,6 +16,8 @@ class PhoneNumber
      * @var DataBag
      */
     protected $dataBag;
+
+    private static $phoneNumberUtil;
 
     /**
      * PhoneNumber constructor.
@@ -27,6 +31,7 @@ class PhoneNumber
             $phoneNumberData['type'] = 'private';
         }
         $this->dataBag->addEntityData('phone', $phoneNumberData);
+        self::$phoneNumberUtil = self::$phoneNumberUtil ?? PhoneNumberUtil::getInstance();
     }
 
     /**
@@ -60,7 +65,6 @@ class PhoneNumber
         $phoneNumber = static::create();
         $phoneNumber->setPhoneNumber($phoneNumberString);
         return $phoneNumber;
-
     }
 
     /**
@@ -75,12 +79,10 @@ class PhoneNumber
      * </tr><tr>
      * <td>s</td><td>subscriberNumber</td>
      * </tr>
-     *
-     * @return string
      */
-    public function toString($format = 'c (a) s')
+    public function toString(?string $format = 'c (a) s'): string
     {
-        if (!\is_string($format)) {
+        if ($format === null) {
             $format = 'c (a) s';
         }
         $countryCode = $this->dataBag->get('phone.countryCode');
@@ -91,13 +93,13 @@ class PhoneNumber
         }
         if (empty($areaCode)) {
             $areaCode = ''; // remove '0' values
-            $format = (string) \preg_replace('/\(\s?a\s?\)\s?/', '', $format);
+            $format = (string)\preg_replace('/\(\s?a\s?\)\s?/', '', $format);
         }
         if (!empty($countryCode) && \strpos($format, 'c') !== false) {
             $areaCode = \ltrim($areaCode, '0');
         }
         return trim(
-            (string) \preg_replace_callback(
+            (string)\preg_replace_callback(
                 '![cas]!',
                 static function (array $matches) use ($countryCode, $areaCode, $subscriberNumber) {
                     switch ($matches[0]) {
@@ -115,55 +117,34 @@ class PhoneNumber
         );
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toString();
     }
 
-    /**
-     * @param string $value
-     */
-    public function setPhoneNumber($value)
+    public function setPhoneNumber(string $value): void
     {
-        $countryCode = '';
-        preg_match('!^\+(\d+)(.+)!', $value, $matches);
-        if (count($matches) === 3) {
-            if (strlen($matches[2]) === 1) {
-                $countryCode = substr($matches[1], 0, 2);
-                $value = substr($matches[1], 2) . $matches[2];
-            } else {
-                $countryCode = $matches[1];
-                $value = str_replace('(0)', '', (string)$matches[2]);
+        try {
+            $phoneNumber = self::$phoneNumberUtil->parse($value, 'NL');
+            $countryCode = (string)($phoneNumber->getCountryCode() ?? 0);
+            $nationalNumber = $phoneNumber->getNationalNumber();
+            $split = \preg_match('/^(1[035]|2[0346]|3[03568]|4[03568]|5[0358]|7\d)/', $nationalNumber) === 1 ? 2 : 3;
+            if (\strpos($nationalNumber, '6') === 0) {
+                $split = 1;
             }
+            $areaCode = \substr($nationalNumber, 0, $split);
+            $subscriberNumber = \substr($nationalNumber, $split);
+        } catch (NumberParseException $e) {
+            $countryCode = '';
+            $areaCode = '';
+            $subscriberNumber = '';
         }
-        $value = str_replace([') ', '-'], [')', ' '], $value);
-        $value = (string)preg_replace('![^\d ]!', '', $value);
-        $parts = explode(' ', trim($value));
-        if (count($parts) > 1) {
-            $areaCode = reset($parts);
-            $subscriberNumber = implode('', array_slice($parts, 1));
-        } else {
-            if ($countryCode) {
-                $start = (!empty($value) && strpos($value, '6') === 0) ? 1 : 3;
-            } else {
-                $start = (!empty($value) && strpos($value, '06') === 0) ? 2 : 3;
-            }
-            $areaCode = substr($value, 0, $start);
-            $subscriberNumber = substr($value, $start);
-        }
-
         $this->dataBag->set('phone.countryCode', $countryCode);
         $this->dataBag->set('phone.areaCode', $areaCode);
         $this->dataBag->set('phone.subscriberNumber', $subscriberNumber);
     }
 
-    /**
-     * @return array|null
-     */
-    public function getState()
+    public function getState(): ?array
     {
         if (!array_filter([$this->dataBag->get('phone.areaCode'), $this->dataBag->get('phone.subscriberNumber')])) {
             return null;

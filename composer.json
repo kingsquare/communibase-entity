@@ -20,7 +20,8 @@
   "require": {
     "php": ">=7.1",
     "kingsquare/communibase-databag": "^1.1",
-    "ext-json": "*"
+    "ext-json": "*",
+    "giggsey/libphonenumber-for-php": "^8.12"
   },
   "autoload": {
     "psr-4": {
