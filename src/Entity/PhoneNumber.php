@@ -102,6 +102,9 @@ class PhoneNumber
         if (!empty($countryCode) && \strpos($format, 'c') !== false) {
             $areaCode = \ltrim($areaCode, '0');
         }
+        if (strpos($areaCode, '0') !== 0 && (empty($countryCode) || \strpos($format, 'c') === false)) {
+            $areaCode = '0' .$areaCode;
+        }
         return trim(
             (string)\preg_replace_callback(
                 '![cas]!',

@@ -72,6 +72,8 @@ class PhoneNumberTest extends TestCase
             'no format but with leading 0' => ['', '0', '06123456789', null, '06123456789'],
             'unknown format' => ['', '0', '06123456789', 'henk', 'henk'],
             'empty area and subscriber' => ['+31', '', '', '', ''],
+            'fix countryCode prefix' => ['31', '251', '123456', null, '+31 (251) 123456'],
+            'fix missing leading zero' => ['31', '251', '123456', '(a) s', '(0251) 123456'],
         ];
     }
 
