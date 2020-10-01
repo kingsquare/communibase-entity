@@ -114,7 +114,7 @@ class CommunibaseIdTest extends TestCase
 
     /**
      * @dataProvider invalidCommunibaseIdArrayProvider
-     * @expectedException \UnexpectedValueException
+     * @expectedException \Communibase\Exception\InvalidIdException
      *
      * @param array $ids
      */

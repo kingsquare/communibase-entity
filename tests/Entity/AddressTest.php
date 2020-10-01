@@ -168,7 +168,7 @@ class AddressTest extends TestCase
 
     /**
      * @dataProvider invalidGeolocationProvider
-     * @expectedException \UnexpectedValueException
+     * @expectedException \Communibase\Exception\InvalidGeoLocationException
      *
      * @param float $latitude
      * @param float $longitude
