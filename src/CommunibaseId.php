@@ -77,6 +77,7 @@ final class CommunibaseId implements \JsonSerializable
      * @param CommunibaseId[] $ids
      *
      * @return array|string[]
+     * @throws InvalidIdException
      */
     public static function toStrings(array $ids)
     {
@@ -122,6 +123,7 @@ final class CommunibaseId implements \JsonSerializable
      * @param CommunibaseId[] $ids
      *
      * @return bool
+     * @throws InvalidIdException
      */
     public function inArray(array $ids)
     {
@@ -172,12 +174,13 @@ final class CommunibaseId implements \JsonSerializable
 
     /**
      * @param array $ids
+     * @throws InvalidIdException
      */
     private static function guardAgainstNonCommunibaseIdObjects(array $ids)
     {
         foreach ($ids as $id) {
             if (!$id instanceof self) {
-                throw new \UnexpectedValueException('Non CommunibaseId object found in array.');
+                throw new InvalidIdException('Non CommunibaseId object found in array.');
             }
         }
     }

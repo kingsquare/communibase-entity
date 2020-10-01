@@ -4,6 +4,7 @@ namespace Communibase\Entity;
 
 use Communibase\CommunibaseId;
 use Communibase\DataBag;
+use Communibase\Exception\InvalidGeoLocationException;
 
 /**
  * Communibase Address
@@ -253,6 +254,7 @@ class Address
     /**
      * @param float $latitude
      * @param float $longitude
+     * @throws InvalidGeoLocationException
      */
     public function setGeoLocation($latitude, $longitude)
     {
@@ -306,11 +308,12 @@ class Address
     /**
      * @param float $latitude
      * @param float $longitude
+     * @throws InvalidGeoLocationException
      */
     protected function guardAgainstInvalidLatLong($latitude, $longitude)
     {
         if ($latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
-            throw new \UnexpectedValueException(\sprintf('Invalid latitude/longitude: %s, %s', $latitude, $longitude));
+            throw new InvalidGeoLocationException(\sprintf('Invalid latitude/longitude: %s, %s', $latitude, $longitude));
         }
     }
 }
