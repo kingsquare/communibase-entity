@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Communibase;
 
 use Communibase\Exception\InvalidDateTimeException;
@@ -18,29 +20,20 @@ final class CommunibaseId implements \JsonSerializable
      */
     private $id;
 
-    /**
-     * @param string $id
-     */
-    private function __construct($id)
+    private function __construct(string $id = '')
     {
         $this->id = $id;
     }
 
-    /**
-     * @return CommunibaseId
-     */
-    public static function create()
+    public static function create(): CommunibaseId
     {
-        return new self('');
+        return new self();
     }
 
     /**
-     * @param string|null $string
-     *
-     * @return CommunibaseId
      * @throws InvalidIdException
      */
-    public static function fromString($string = null)
+    public static function fromString(string $string = null): CommunibaseId
     {
         if ($string === null) {
             $string = '';
@@ -50,27 +43,27 @@ final class CommunibaseId implements \JsonSerializable
     }
 
     /**
-     * @param array $strings
-     *
      * @return CommunibaseId[]
      * @throws InvalidIdException
      */
-    public static function fromStrings(array $strings)
+    public static function fromStrings(array $strings): array
     {
         return array_map([__CLASS__, 'fromString'], $strings);
     }
 
     /**
      * @param CommunibaseId[] $ids
-     *
-     * @return array
      */
-    public static function toObjectQueryArray(array $ids)
+    public static function toObjectQueryArray(array $ids): array
     {
-        return array_reduce($ids, static function (array $carry, CommunibaseId $id) {
-            $carry[] = ['$ObjectId' => $id->toString()];
-            return $carry;
-        }, []);
+        return array_reduce(
+            $ids,
+            static function (array $carry, CommunibaseId $id) {
+                $carry[] = ['$ObjectId' => $id->toString()];
+                return $carry;
+            },
+            []
+        );
     }
 
     /**
@@ -79,42 +72,28 @@ final class CommunibaseId implements \JsonSerializable
      * @return array|string[]
      * @throws InvalidIdException
      */
-    public static function toStrings(array $ids)
+    public static function toStrings(array $ids): array
     {
         self::guardAgainstNonCommunibaseIdObjects($ids);
         return \array_values(array_filter(array_map('strval', $ids)));
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function toString()
+    public function toString(): string
     {
         return $this->__toString();
     }
 
-    /**
-     * @return bool
-     */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->id === '';
     }
 
-    /**
-     * @param CommunibaseId $id
-     *
-     * @return bool
-     */
-    public function equals(CommunibaseId $id)
+    public function equals(CommunibaseId $id): bool
     {
         return $this->toString() === $id->toString();
     }
@@ -122,26 +101,24 @@ final class CommunibaseId implements \JsonSerializable
     /**
      * @param CommunibaseId[] $ids
      *
-     * @return bool
      * @throws InvalidIdException
      */
-    public function inArray(array $ids)
+    public function inArray(array $ids): bool
     {
         self::guardAgainstNonCommunibaseIdObjects($ids);
         return in_array($this->id, self::toStrings($ids), true);
     }
 
     /**
-     * @return \DateTimeImmutable|null
      * @throws InvalidDateTimeException
      */
-    public function getCreateDate()
+    public function getCreateDate(): ?\DateTimeImmutable
     {
         if ($this->isEmpty()) {
             return null;
         }
         try {
-            $timestamp = intval(substr($this, 0, 8), 16);
+            $timestamp = intval(substr($this->id, 0, 8), 16);
             return new \DateTimeImmutable('@' . $timestamp);
         } catch (\Exception $e) {
             throw new InvalidDateTimeException('Invalid timestamp.', 0, $e);
@@ -157,11 +134,9 @@ final class CommunibaseId implements \JsonSerializable
     }
 
     /**
-     * @param string $id
-     *
      * @throws InvalidIdException
      */
-    private static function guardAgainstInvalidIdString($id)
+    private static function guardAgainstInvalidIdString(string $id): void
     {
         if (!is_string($id)) {
             throw new InvalidIdException('Invalid ID (type should be string, ' . gettype($id) . ' given)');
@@ -173,10 +148,9 @@ final class CommunibaseId implements \JsonSerializable
     }
 
     /**
-     * @param array $ids
      * @throws InvalidIdException
      */
-    private static function guardAgainstNonCommunibaseIdObjects(array $ids)
+    private static function guardAgainstNonCommunibaseIdObjects(array $ids): void
     {
         foreach ($ids as $id) {
             if (!$id instanceof self) {

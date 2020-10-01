@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Communibase\Entity;
 
 use Communibase\CommunibaseId;
@@ -19,10 +21,7 @@ class Address
      */
     protected $dataBag;
 
-    /**
-     * @param array $addressData
-     */
-    protected function __construct(array $addressData)
+    protected function __construct(array $addressData = [])
     {
         $this->dataBag = DataBag::create();
         if ($addressData === []) {
@@ -36,12 +35,10 @@ class Address
      */
     public static function create()
     {
-        return new static([]);
+        return new static();
     }
 
     /**
-     * @param array|null $addressData
-     *
      * @return static
      */
     public static function fromAddressData(array $addressData = null)
@@ -52,140 +49,87 @@ class Address
         return new static($addressData);
     }
 
-    /**
-     * @return string
-     */
-    public function getProperty()
+    public function getProperty(): string
     {
-        return $this->dataBag->get('address.property');
+        return (string)$this->dataBag->get('address.property');
     }
 
-    /**
-     * @param string $property
-     */
-    public function setProperty($property)
+    public function setProperty(string $property): void
     {
         $this->dataBag->set('address.property', $property);
     }
 
-    /**
-     * @return string
-     */
-    public function getStreet()
+    public function getStreet(): string
     {
         return trim((string)$this->dataBag->get('address.street'));
     }
 
-    /**
-     * @param string $street
-     */
-    public function setStreet($street)
+    public function setStreet(string $street): void
     {
-        $this->dataBag->set('address.street', (string)$street);
+        $this->dataBag->set('address.street', $street);
     }
 
-    /**
-     * @return string
-     */
-    public function getStreetNumber()
+    public function getStreetNumber(): string
     {
-        return $this->dataBag->get('address.streetNumber');
+        return (string)$this->dataBag->get('address.streetNumber');
     }
 
-    /**
-     * @param string $streetNumber
-     */
-    public function setStreetNumber($streetNumber)
+    public function setStreetNumber(string $streetNumber): void
     {
-        $this->dataBag->set('address.streetNumber', (string)$streetNumber);
+        $this->dataBag->set('address.streetNumber', $streetNumber);
     }
 
-    /**
-     * @return string
-     */
-    public function getStreetNumberAddition()
+    public function getStreetNumberAddition(): string
     {
-        return $this->dataBag->get('address.streetNumberAddition');
+        return (string)$this->dataBag->get('address.streetNumberAddition');
     }
 
-    /**
-     * @param string $streetNumberAddition
-     */
-    public function setStreetNumberAddition($streetNumberAddition)
+    public function setStreetNumberAddition(string $streetNumberAddition): void
     {
-        $this->dataBag->set('address.streetNumberAddition', (string)$streetNumberAddition);
+        $this->dataBag->set('address.streetNumberAddition', $streetNumberAddition);
     }
 
-    /**
-     * @return string
-     */
-    public function getZipcode()
+    public function getZipcode(): string
     {
         return trim((string)$this->dataBag->get('address.zipcode'));
     }
 
-    /**
-     * @param string $zipcode
-     */
-    public function setZipcode($zipcode)
+    public function setZipcode(string $zipcode): void
     {
-        $this->dataBag->set('address.zipcode', (string)$zipcode);
+        $this->dataBag->set('address.zipcode', $zipcode);
     }
 
-    /**
-     * @return string
-     */
-    public function getCity()
+    public function getCity(): string
     {
         return trim((string)$this->dataBag->get('address.city'));
     }
 
-    /**
-     * @param string $city
-     */
-    public function setCity($city)
+    public function setCity(string $city): void
     {
-        $this->dataBag->set('address.city', (string)$city);
+        $this->dataBag->set('address.city', $city);
     }
 
-    /**
-     * @param string $default
-     *
-     * @return string
-     */
-    public function getCountryCode($default = 'NL')
+    public function getCountryCode(string $default = 'NL'): string
     {
         return trim((string)$this->dataBag->get('address.countryCode', $default));
     }
 
-    /**
-     * @param string $countryCode
-     */
-    public function setCountryCode($countryCode)
+    public function setCountryCode(string $countryCode): void
     {
-        $this->dataBag->set('address.countryCode', (string)$countryCode);
+        $this->dataBag->set('address.countryCode', $countryCode);
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType(): string
     {
         return trim((string)$this->dataBag->get('address.type'));
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+    public function setType(string $type): void
     {
-        $this->dataBag->set('address.type', (string)$type);
+        $this->dataBag->set('address.type', $type);
     }
 
-    /**
-     * @return CommunibaseId
-     */
-    public function getId()
+    public function getId(): CommunibaseId
     {
         return CommunibaseId::fromString($this->dataBag->get('address._id'));
     }
@@ -195,12 +139,7 @@ class Address
         return $this->toString();
     }
 
-    /**
-     * @param bool $singleLine
-     *
-     * @return string
-     */
-    public function toString($singleLine = true)
+    public function toString(bool $singleLine = true): string
     {
         if ($this->getState() === null) {
             return '';
@@ -211,21 +150,31 @@ class Address
         ];
 
         if ($singleLine) {
-            return implode(', ', array_filter([
-                implode(' ', $lines[0]),
-                implode(', ', $lines[1]),
-            ]));
+            return implode(
+                ', ',
+                array_filter(
+                    [
+                        implode(' ', $lines[0]),
+                        implode(', ', $lines[1]),
+                    ]
+                )
+            );
         }
-        return implode(PHP_EOL, array_filter([
-            implode(' ', $lines[0]),
-            implode(' ', $lines[1]),
-        ]));
+        return implode(
+            PHP_EOL,
+            array_filter(
+                [
+                    implode(' ', $lines[0]),
+                    implode(' ', $lines[1]),
+                ]
+            )
+        );
     }
 
     /**
      * @return float[]|null
      */
-    public function getGeoLocation()
+    public function getGeoLocation(): ?array
     {
         // native geo handling
         if ($this->isGeoStorageUsingNativePoint()) {
@@ -252,31 +201,30 @@ class Address
     }
 
     /**
-     * @param float $latitude
-     * @param float $longitude
      * @throws InvalidGeoLocationException
      */
-    public function setGeoLocation($latitude, $longitude)
+    public function setGeoLocation(float $latitude, float $longitude): void
     {
-        $latitude = (float)$latitude;
-        $longitude = (float)$longitude;
         $this->guardAgainstInvalidLatLong($latitude, $longitude);
 
         // native geo handling
         if ($this->isGeoStorageUsingNativePoint()) {
-            $this->dataBag->set('address.point', [
-                'coordinates' => [
-                    0 => $longitude,
-                    1 => $latitude,
-                ],
-            ]);
+            $this->dataBag->set(
+                'address.point',
+                [
+                    'coordinates' => [
+                        0 => $longitude,
+                        1 => $latitude,
+                    ],
+                ]
+            );
             return;
         }
         $this->dataBag->set('address.latitude', $latitude);
         $this->dataBag->set('address.longitude', $longitude);
     }
 
-    private function isGeoStorageUsingNativePoint()
+    private function isGeoStorageUsingNativePoint(): bool
     {
         return !empty($this->dataBag->get('address.point'));
     }
@@ -284,20 +232,24 @@ class Address
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
-        return empty(array_filter([
-            $this->getStreet(),
-            $this->getStreetNumber(),
-            $this->getZipcode(),
-            $this->getCity()
-        ]));
+        return empty(
+        array_filter(
+            [
+                $this->getStreet(),
+                $this->getStreetNumber(),
+                $this->getZipcode(),
+                $this->getCity()
+            ]
+        )
+        );
     }
 
     /**
      * @return array|null
      */
-    public function getState()
+    public function getState(): ?array
     {
         if ($this->isEmpty()) {
             return null;
@@ -306,14 +258,14 @@ class Address
     }
 
     /**
-     * @param float $latitude
-     * @param float $longitude
      * @throws InvalidGeoLocationException
      */
-    protected function guardAgainstInvalidLatLong($latitude, $longitude)
+    protected function guardAgainstInvalidLatLong(float $latitude, float $longitude): void
     {
         if ($latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
-            throw new InvalidGeoLocationException(\sprintf('Invalid latitude/longitude: %s, %s', $latitude, $longitude));
+            throw new InvalidGeoLocationException(
+                \sprintf('Invalid latitude/longitude: %s, %s', $latitude, $longitude)
+            );
         }
     }
 }
