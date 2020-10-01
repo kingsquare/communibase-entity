@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.0.0
+- **[BC break]** make exceptions extend \Exception instead of \RuntimeException
+
 ## 2.3.1
 - add some named static constructors
 
