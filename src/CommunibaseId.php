@@ -42,42 +42,6 @@ final class CommunibaseId implements \JsonSerializable
         return new self($string);
     }
 
-    /**
-     * @return CommunibaseId[]
-     * @throws InvalidIdException
-     */
-    public static function fromStrings(array $strings): array
-    {
-        return array_map([__CLASS__, 'fromString'], $strings);
-    }
-
-    /**
-     * @param CommunibaseId[] $ids
-     */
-    public static function toObjectQueryArray(array $ids): array
-    {
-        return array_reduce(
-            $ids,
-            static function (array $carry, CommunibaseId $id) {
-                $carry[] = ['$ObjectId' => $id->toString()];
-                return $carry;
-            },
-            []
-        );
-    }
-
-    /**
-     * @param CommunibaseId[] $ids
-     *
-     * @return array|string[]
-     * @throws InvalidIdException
-     */
-    public static function toStrings(array $ids): array
-    {
-        self::guardAgainstNonCommunibaseIdObjects($ids);
-        return \array_values(array_filter(array_map('strval', $ids)));
-    }
-
     public function __toString(): string
     {
         return $this->id;
@@ -96,17 +60,6 @@ final class CommunibaseId implements \JsonSerializable
     public function equals(CommunibaseId $id): bool
     {
         return $this->toString() === $id->toString();
-    }
-
-    /**
-     * @param CommunibaseId[] $ids
-     *
-     * @throws InvalidIdException
-     */
-    public function inArray(array $ids): bool
-    {
-        self::guardAgainstNonCommunibaseIdObjects($ids);
-        return in_array($this->id, self::toStrings($ids), true);
     }
 
     /**
@@ -144,18 +97,6 @@ final class CommunibaseId implements \JsonSerializable
 
         if ($id !== '' && !preg_match('/^[a-f0-9]{24}$/', $id)) {
             throw new InvalidIdException('Invalid ID (' . $id . ')');
-        }
-    }
-
-    /**
-     * @throws InvalidIdException
-     */
-    private static function guardAgainstNonCommunibaseIdObjects(array $ids): void
-    {
-        foreach ($ids as $id) {
-            if (!$id instanceof self) {
-                throw new InvalidIdException('Non CommunibaseId object found in array.');
-            }
         }
     }
 }
