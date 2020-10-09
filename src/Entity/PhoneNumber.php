@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Communibase\Entity;
 
 use Communibase\DataBag;
@@ -19,12 +21,7 @@ class PhoneNumber
 
     private static $phoneNumberUtil;
 
-    /**
-     * PhoneNumber constructor.
-     *
-     * @param array $phoneNumberData
-     */
-    protected function __construct(array $phoneNumberData)
+    protected function __construct(array $phoneNumberData = [])
     {
         $this->dataBag = DataBag::create();
         if (empty($phoneNumberData['type'])) {
@@ -39,28 +36,21 @@ class PhoneNumber
      */
     public static function create()
     {
-        return new static([]);
+        return new static();
     }
 
     /**
-     * @param array $phoneNumberData
-     *
      * @return static
      */
     public static function fromPhoneNumberData(array $phoneNumberData = null)
     {
-        if ($phoneNumberData === null) {
-            $phoneNumberData = [];
-        }
-        return new static($phoneNumberData);
+        return new static($phoneNumberData ?? []);
     }
 
     /**
-     * @param string $phoneNumberString
-     *
      * @return static
      */
-    public static function fromString($phoneNumberString)
+    public static function fromString(string $phoneNumberString)
     {
         $phoneNumber = static::create();
         $phoneNumber->setPhoneNumber($phoneNumberString);
@@ -68,7 +58,7 @@ class PhoneNumber
     }
 
     /**
-     * @param string $format defaults to 'c(a)s'
+     * @param string|null $format defaults to 'c(a)s'
      * The following characters are recognized in the format parameter string:
      * <table><tr>
      * <td>Character&nbsp;</td><td>Description</td>
@@ -103,7 +93,7 @@ class PhoneNumber
             $areaCode = \ltrim($areaCode, '0');
         }
         if (strpos($areaCode, '0') !== 0 && (empty($countryCode) || \strpos($format, 'c') === false)) {
-            $areaCode = '0' .$areaCode;
+            $areaCode = '0' . $areaCode;
         }
         return trim(
             (string)\preg_replace_callback(
@@ -132,6 +122,7 @@ class PhoneNumber
     public function setPhoneNumber(string $value): void
     {
         try {
+            /** @var \libphonenumber\PhoneNumber $phoneNumber */
             $phoneNumber = self::$phoneNumberUtil->parse($value, 'NL');
             $countryCode = (string)($phoneNumber->getCountryCode() ?? 0);
             $nationalNumber = $phoneNumber->getNationalNumber();

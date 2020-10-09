@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Communibase\Entity;
 
 use Communibase\DataBag;
@@ -17,10 +19,7 @@ class Email
      */
     protected $dataBag;
 
-    /**
-     * @param array $emailAddressData
-     */
-    protected function __construct(array $emailAddressData)
+    protected function __construct(array $emailAddressData = [])
     {
         if (empty($emailAddressData['type'])) {
             $emailAddressData['type'] = 'private';
@@ -34,12 +33,10 @@ class Email
      */
     public static function create()
     {
-        return new static([]);
+        return new static();
     }
 
     /**
-     * @param array|null $emailAddressData
-     *
      * @return static
      */
     public static function fromEmailAddressData(array $emailAddressData = null)
@@ -51,53 +48,36 @@ class Email
     }
 
     /**
-     * @param string $emailAddress
-     *
      * @return static
      */
-    public static function fromEmailAddress($emailAddress)
+    public static function fromEmailAddress(string $emailAddress)
     {
         return static::fromEmailAddressData([
             'emailAddress' => $emailAddress,
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function getEmailAddress()
+    public function getEmailAddress(): string
     {
         return (string)$this->dataBag->get('email.emailAddress');
     }
 
-    /**
-     * @param string $emailAddress
-     */
-    public function setEmailAddress($emailAddress)
+    public function setEmailAddress(string $emailAddress): void
     {
-        $this->dataBag->set('email.emailAddress', (string)$emailAddress);
+        $this->dataBag->set('email.emailAddress', $emailAddress);
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType(): string
     {
         return (string)$this->dataBag->get('email.type');
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+    public function setType(string $type): void
     {
-        $this->dataBag->set('email.type', (string)$type);
+        $this->dataBag->set('email.type', $type);
     }
 
-    /**
-     * @return array|null
-     */
-    public function getState()
+    public function getState(): ?array
     {
         if (empty($this->getEmailAddress())) {
             return null;
