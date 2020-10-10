@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Communibase\Tests\Entity;
 
-use Communibase\Entity\Address;
 use Communibase\Entity\Email;
 use PHPUnit\Framework\TestCase;
 
@@ -13,45 +14,48 @@ use PHPUnit\Framework\TestCase;
 class EmailTest extends TestCase
 {
 
-    public function test_it_can_get_various_properties()
+    public function test_it_can_get_various_properties(): void
     {
         $data = [
             'emailAddress' => 'info@kingsquare.nl',
             'type' => 'private',
         ];
         $email = Email::fromEmailAddressData($data);
-        $this->assertSame($data['emailAddress'], $email->getEmailAddress());
-        $this->assertSame($data['type'], $email->getType());
+        self::assertSame($data['emailAddress'], $email->getEmailAddress());
+        self::assertSame($data['type'], $email->getType());
     }
 
-    public function test_with_only_emailAddress_string_as_input()
+    public function test_with_only_emailAddress_string_as_input(): void
     {
         $input = 'info@kingsquare.nl';
         $email = Email::fromEmailAddress($input);
-        $this->assertSame($input, $email->getEmailAddress());
+        self::assertSame($input, $email->getEmailAddress());
     }
 
-    public function test_with_empty_input()
+    public function test_with_empty_input(): void
     {
         $email = Email::fromEmailAddressData();
-        $this->assertSame('', $email->getEmailAddress());
+        self::assertSame('', $email->getEmailAddress());
     }
 
-    public function test_setters()
+    public function test_setters(): void
     {
         $email = Email::fromEmailAddressData();
-        $this->assertNull($email->getState());
+        self::assertNull($email->getState());
 
         $email->setEmailAddress('info@kingsquare.nl');
-        $this->assertSame('info@kingsquare.nl', $email->getEmailAddress());
+        self::assertSame('info@kingsquare.nl', $email->getEmailAddress());
 
         $email->setType('work');
-        $this->assertSame('work', $email->getType());
+        self::assertSame('work', $email->getType());
 
-        $this->assertSame([
-            'type' => 'work',
-            'emailAddress' => 'info@kingsquare.nl',
-        ], $email->getState());
+        self::assertSame(
+            [
+                'type' => 'work',
+                'emailAddress' => 'info@kingsquare.nl',
+            ],
+            $email->getState()
+        );
     }
 
 }

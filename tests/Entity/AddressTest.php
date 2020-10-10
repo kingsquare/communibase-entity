@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Communibase\Tests\Entity;
 
 use Communibase\Entity\Address;
+use Communibase\Exception\InvalidGeoLocationException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 class AddressTest extends TestCase
 {
 
-    public function test_it_can_get_various_properties()
+    public function test_it_can_get_various_properties(): void
     {
         $data = [
             'property' => 'The White House',
@@ -26,30 +29,27 @@ class AddressTest extends TestCase
             '_id' => '5c3e042951f0be010443a1d2',
         ];
         $address = Address::fromAddressData($data);
-        $this->assertSame($data['property'], $address->getProperty());
-        $this->assertSame($data['street'], $address->getStreet());
-        $this->assertSame($data['streetNumber'], $address->getStreetNumber());
-        $this->assertSame($data['streetNumberAddition'], $address->getStreetNumberAddition());
-        $this->assertSame($data['zipcode'], $address->getZipcode());
-        $this->assertSame($data['city'], $address->getCity());
-        $this->assertSame($data['type'], $address->getType());
-        $this->assertSame($data['_id'], (string)$address->getId());
+        self::assertSame($data['property'], $address->getProperty());
+        self::assertSame($data['street'], $address->getStreet());
+        self::assertSame($data['streetNumber'], $address->getStreetNumber());
+        self::assertSame($data['streetNumberAddition'], $address->getStreetNumberAddition());
+        self::assertSame($data['zipcode'], $address->getZipcode());
+        self::assertSame($data['city'], $address->getCity());
+        self::assertSame($data['type'], $address->getType());
+        self::assertSame($data['_id'], (string)$address->getId());
     }
 
     /**
      * @dataProvider setSetterProvider
-     *
-     * @param string $property
-     * @param mixed $value
      */
-    public function test_setters($property, $value)
+    public function test_setters(string $property, string $value): void
     {
         $address = Address::fromAddressData();
         $address->{'set' . $property}($value);
-        $this->assertSame($value, $address->{'get' . $property}());
+        self::assertSame($value, $address->{'get' . $property}());
     }
 
-    public function setSetterProvider()
+    public function setSetterProvider(): array
     {
         return [
             ['property', 'The White House'],
@@ -63,100 +63,132 @@ class AddressTest extends TestCase
         ];
     }
 
-    public function test_can_set_geolocation()
+    /**
+     * @throws InvalidGeoLocationException
+     */
+    public function test_can_set_geolocation(): void
     {
         $address = Address::fromAddressData();
         $lat = 52.36498073;
         $lng = 4.55567032;
         $address->setGeoLocation($lat, $lng);
-        $this->assertSame([
-            'lat' => $lat,
-            'lng' => $lng,
-        ], $address->getGeoLocation());
+        self::assertSame(
+            [
+                'lat' => $lat,
+                'lng' => $lng,
+            ],
+            $address->getGeoLocation()
+        );
     }
 
-    public function test_can_get_geolocation_using_point()
+    public function test_can_get_geolocation_using_point(): void
     {
         $lat = 52.36498073;
         $lng = 4.55567032;
-        $address = Address::fromAddressData([
-            'point' => [
-                'coordinates' => [
-                    0 => $lng,
-                    1 => $lat,
-                ]
+        $address = Address::fromAddressData(
+            [
+                'point' => [
+                    'coordinates' => [
+                        0 => $lng,
+                        1 => $lat,
+                    ]
+                ],
+            ]
+        );
+        self::assertSame(
+            [
+                'lat' => $lat,
+                'lng' => $lng,
             ],
-        ]);
-        $this->assertSame([
-            'lat' => $lat,
-            'lng' => $lng,
-        ], $address->getGeoLocation());
+            $address->getGeoLocation()
+        );
     }
 
-    public function test_can_get_geolocation_using_old_style()
+    public function test_can_get_geolocation_using_old_style(): void
     {
         // old style
         $lat = 52.36498073;
         $lng = 4.55567032;
-        $address = Address::fromAddressData([
-            'latitude' => $lat,
-            'longitude' => $lng,
-        ]);
-        $this->assertSame([
-            'lat' => $lat,
-            'lng' => $lng,
-        ], $address->getGeoLocation());
+        $address = Address::fromAddressData(
+            [
+                'latitude' => $lat,
+                'longitude' => $lng,
+            ]
+        );
+        self::assertSame(
+            [
+                'lat' => $lat,
+                'lng' => $lng,
+            ],
+            $address->getGeoLocation()
+        );
     }
 
-    public function test_can_get_geolocation_prefers_point()
+    public function test_can_get_geolocation_prefers_point(): void
     {
         // old style
         $pointLat = 52.36498073;
         $pointLng = 4.55567032;
         $oldLat = 1.55567032;
         $oldLng = 55.55567032;
-        $address = Address::fromAddressData([
-            'point' => [
-                'coordinates' => [
-                    0 => $pointLng,
-                    1 => $pointLat,
-                ]
+        $address = Address::fromAddressData(
+            [
+                'point' => [
+                    'coordinates' => [
+                        0 => $pointLng,
+                        1 => $pointLat,
+                    ]
+                ],
+                'latitude' => $oldLat,
+                'longitude' => $oldLng,
+            ]
+        );
+        self::assertSame(
+            [
+                'lat' => $pointLat,
+                'lng' => $pointLng,
             ],
-            'latitude' => $oldLat,
-            'longitude' => $oldLng,
-        ]);
-        $this->assertSame([
-            'lat' => $pointLat,
-            'lng' => $pointLng,
-        ], $address->getGeoLocation());
+            $address->getGeoLocation()
+        );
     }
 
-    public function test_can_set_geolocation_using_point()
+    /**
+     * @throws InvalidGeoLocationException
+     */
+    public function test_can_set_geolocation_using_point(): void
     {
         $newLat = 52.36498073;
         $newLng = 4.55567032;
         $oldLat = 1.55567032;
         $oldLng = 55.55567032;
-        $address = Address::fromAddressData([
-            'point' => [
-                'coordinates' => [
-                    0 => $oldLng,
-                    1 => $oldLat,
-                ]
+        $address = Address::fromAddressData(
+            [
+                'point' => [
+                    'coordinates' => [
+                        0 => $oldLng,
+                        1 => $oldLat,
+                    ]
+                ],
+            ]
+        );
+        self::assertSame(
+            [
+                'lat' => $oldLat,
+                'lng' => $oldLng,
             ],
-        ]);
-        $this->assertSame([
-            'lat' => $oldLat,
-            'lng' => $oldLng,
-        ], $address->getGeoLocation());
+            $address->getGeoLocation()
+        );
         $address->setGeoLocation($newLat, $newLng);
-        $this->assertSame([
-            'lat' => $newLat,
-            'lng' => $newLng,
-        ], $address->getGeoLocation());
+        self::assertSame(
+            [
+                'lat' => $newLat,
+                'lng' => $newLng,
+            ],
+            $address->getGeoLocation()
+        );
     }
 
-    public function invalidGeolocationProvider()
+    public function invalidGeolocationProvider(): array
     {
         return [
             [-91.0, 0.0],
@@ -168,18 +200,17 @@ class AddressTest extends TestCase
 
     /**
      * @dataProvider invalidGeolocationProvider
-     * @expectedException \Communibase\Exception\InvalidGeoLocationException
      *
-     * @param float $latitude
-     * @param float $longitude
+     * @throws InvalidGeoLocationException
      */
-    public function test_we_cant_set_an_invalid_geolocation($latitude, $longitude)
+    public function test_we_cant_set_an_invalid_geolocation(float $latitude, float $longitude): void
     {
+        $this->expectException(InvalidGeoLocationException::class);
         $address = Address::fromAddressData();
         $address->setGeoLocation($latitude, $longitude);
     }
 
-    public function test_it_can_be_stringed()
+    public function test_it_can_be_stringed(): void
     {
         $data = [
             'property' => 'The White House',
@@ -192,11 +223,12 @@ class AddressTest extends TestCase
             '_id' => '5c3e042951f0be010443a1d2',
         ];
         $address = Address::fromAddressData($data);
-        $this->assertSame('Zandvoortselaan 185, 2042 XL, Zandvoort', $address->toString());
-        $this->assertSame('Zandvoortselaan 185, 2042 XL, Zandvoort', (string)$address);
-        $this->assertSame('Zandvoortselaan 185' . PHP_EOL . '2042 XL Zandvoort', $address->toString(false));
+        self::assertSame('Zandvoortselaan 185, 2042 XL, Zandvoort', $address->toString());
+        self::assertSame('Zandvoortselaan 185, 2042 XL, Zandvoort', (string)$address);
+        self::assertSame('Zandvoortselaan 185' . PHP_EOL . '2042 XL Zandvoort', $address->toString(false));
     }
-    public function test_it_can_be_stringed_with_a_streetNumberAddition()
+
+    public function test_it_can_be_stringed_with_a_streetNumberAddition(): void
     {
         $data = [
             'property' => 'The White House',
@@ -210,16 +242,15 @@ class AddressTest extends TestCase
             '_id' => '5c3e042951f0be010443a1d2',
         ];
         $address = Address::fromAddressData($data);
-        $this->assertSame('Zandvoortselaan 185 III, 2042 XL, Zandvoort', $address->toString());
-        $this->assertSame('Zandvoortselaan 185 III, 2042 XL, Zandvoort', (string)$address);
-        $this->assertSame('Zandvoortselaan 185 III' . PHP_EOL . '2042 XL Zandvoort', $address->toString(false));
+        self::assertSame('Zandvoortselaan 185 III, 2042 XL, Zandvoort', $address->toString());
+        self::assertSame('Zandvoortselaan 185 III, 2042 XL, Zandvoort', (string)$address);
+        self::assertSame('Zandvoortselaan 185 III' . PHP_EOL . '2042 XL Zandvoort', $address->toString(false));
     }
 
-    public function test_it_can_be_empty()
+    public function test_it_can_be_empty(): void
     {
         $address = Address::fromAddressData();
-        $this->assertNull($address->getState());
-        $this->assertSame('', (string)$address);
+        self::assertNull($address->getState());
+        self::assertSame('', (string)$address);
     }
-
 }
