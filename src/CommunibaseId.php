@@ -91,10 +91,6 @@ final class CommunibaseId implements \JsonSerializable
      */
     private static function guardAgainstInvalidIdString(string $id): void
     {
-        if (!is_string($id)) {
-            throw new InvalidIdException('Invalid ID (type should be string, ' . gettype($id) . ' given)');
-        }
-
         if ($id !== '' && !preg_match('/^[a-f0-9]{24}$/', $id)) {
             throw new InvalidIdException('Invalid ID (' . $id . ')');
         }
