@@ -125,7 +125,7 @@ class PhoneNumber
             /** @var \libphonenumber\PhoneNumber $phoneNumber */
             $phoneNumber = self::$phoneNumberUtil->parse($value, 'NL');
             $countryCode = (string)($phoneNumber->getCountryCode() ?? 0);
-            $nationalNumber = $phoneNumber->getNationalNumber();
+            $nationalNumber = (string)$phoneNumber->getNationalNumber();
             $split = \preg_match('/^(1[035]|2[0346]|3[03568]|4[03568]|5[0358]|7\d)/', $nationalNumber) === 1 ? 2 : 3;
             if (\strpos($nationalNumber, '6') === 0) {
                 $split = 1;
