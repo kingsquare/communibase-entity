@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Communibase;
 
-use Communibase\Exception\InvalidDateTimeException;
 use Communibase\Exception\InvalidIdException;
 
 /**
@@ -62,20 +61,14 @@ final class CommunibaseId implements \JsonSerializable
         return $this->toString() === $id->toString();
     }
 
-    /**
-     * @throws InvalidDateTimeException
-     */
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function getCreateDate(): ?\DateTimeImmutable
     {
         if ($this->isEmpty()) {
             return null;
         }
-        try {
-            $timestamp = intval(substr($this->id, 0, 8), 16);
-            return new \DateTimeImmutable('@' . $timestamp);
-        } catch (\Exception $e) {
-            throw new InvalidDateTimeException('Invalid timestamp.', 0, $e);
-        }
+        $timestamp = intval(substr($this->id, 0, 8), 16);
+        return new \DateTimeImmutable('@' . $timestamp);
     }
 
     /**

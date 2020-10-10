@@ -45,7 +45,6 @@ class CommunibaseIdTest extends TestCase
         CommunibaseId::fromString($string);
     }
 
-    /** @noinspection PhpUnhandledExceptionInspection */
     public function test_we_can_retrieve_the_createdate(): void
     {
         $id = CommunibaseId::create();
