@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Communibase\Tests\Entity;
 
 use Communibase\Entity\PhoneNumber;
@@ -56,7 +58,7 @@ class PhoneNumberTest extends TestCase
                 'subscriberNumber' => $subscriberNumber,
                 'type' => 'private',
             ];
-        $this->assertEquals($expected, $phoneNumber->getState());
+        self::assertEquals($expected, $phoneNumber->getState());
     }
 
     public function provider(): array
@@ -94,7 +96,7 @@ class PhoneNumberTest extends TestCase
                 'subscriberNumber' => $subscriberNumber,
             ]
         );
-        $this->assertSame($expected, $phoneNumber->toString($format));
+        self::assertSame($expected, $phoneNumber->toString($format));
     }
 
     public function test_it_can_be_cast_to_string(): void
@@ -106,6 +108,12 @@ class PhoneNumberTest extends TestCase
                 'subscriberNumber' => '123456789',
             ]
         );
-        $this->assertSame('+31 (6) 123456789', (string)$phoneNumber);
+        self::assertSame('+31 (6) 123456789', (string)$phoneNumber);
+    }
+
+    public function test_it_can_be_created_from_a_string(): void
+    {
+        $phoneNumber = PhoneNumber::fromString('+316123456789');
+        self::assertSame('+31 (6) 123456789', (string)$phoneNumber);
     }
 }
