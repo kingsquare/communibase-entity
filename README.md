@@ -5,7 +5,8 @@
 
 Some basic reusable CB Entities:
 
-- CommunibaseId  
+- CommunibaseId
+- CommunibaseIdCollection
 - Address
 - Email
 - PhoneNumber
