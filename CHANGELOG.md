@@ -1,5 +1,10 @@
 # Change Log
 
+## 5.0.0
+- **[BC break]** strict typing
+- **[BC break]** add CommunibaseIdCollection
+- add clone methods to Address, Email and PhoneNumber
+
 ## 4.0.0
 - **[BC break]** make exceptions extend \Exception instead of \RuntimeException
 
@@ -34,5 +39,4 @@
 
 ## 1.0.0
 
-*
--initial version
+- initial version
