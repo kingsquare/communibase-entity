@@ -77,6 +77,15 @@ class Email
         $this->dataBag->set('email.type', $type);
     }
 
+    public function __clone()
+    {
+        $state = $this->getState();
+        if ($state !== null) {
+            unset($state['_id']);
+            $this->dataBag->addEntityData('email', $state);
+        }
+    }
+
     public function getState(): ?array
     {
         if (empty($this->getEmailAddress())) {
