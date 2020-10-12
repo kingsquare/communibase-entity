@@ -142,6 +142,15 @@ class PhoneNumber
         $this->dataBag->set('phone.subscriberNumber', $subscriberNumber);
     }
 
+    public function __clone()
+    {
+        $state = $this->getState();
+        if ($state !== null) {
+            unset($state['_id']);
+            $this->dataBag->addEntityData('phone', $state);
+        }
+    }
+
     public function getState(): ?array
     {
         if (!array_filter([$this->dataBag->get('phone.areaCode'), $this->dataBag->get('phone.subscriberNumber')])) {

@@ -246,6 +246,15 @@ class Address
         );
     }
 
+    public function __clone()
+    {
+        $state = $this->getState();
+        if ($state !== null) {
+            unset($state['_id']);
+            $this->dataBag->addEntityData('address', $state);
+        }
+    }
+
     /**
      * @return array|null
      */
