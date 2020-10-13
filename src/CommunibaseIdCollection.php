@@ -38,6 +38,27 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
         return new self($strings);
     }
 
+    /**
+     * Filter out all invalid strings
+     */
+    public static function fromValidStrings(array $strings): CommunibaseIdCollection
+    {
+        $collection = new self([]);
+        $collection->ids = \array_reduce(
+            $strings,
+            static function (array $communibaseIds, $string) {
+                try {
+                    $communibaseIds[] = CommunibaseId::fromString((string)$string);
+                } catch (InvalidIdException $e) {
+                    // ignore invalid strings
+                }
+                return $communibaseIds;
+            },
+            []
+        );
+        return $collection;
+    }
+
     public function contains(CommunibaseId $needleId): bool
     {
         foreach ($this->ids as $id) {

@@ -82,4 +82,10 @@ class CommunibaseIdCollectionTest extends TestCase
         }
         self::assertSame([self::VALID_ID_STRING, self::VALID_ID_STRING_2], $results);
     }
+
+    public function test_it_can_filter_invalid_strings(): void
+    {
+        $ids = CommunibaseIdCollection::fromValidStrings([self::VALID_ID_STRING, 'foo']);
+        self::assertSame([self::VALID_ID_STRING], $ids->toStrings());
+    }
 }
