@@ -54,7 +54,7 @@ class Address
         return (string)$this->dataBag->get('address.property');
     }
 
-    public function setProperty(string $property): void
+    public function setProperty(?string $property): void
     {
         $this->dataBag->set('address.property', $property);
     }
@@ -64,7 +64,7 @@ class Address
         return trim((string)$this->dataBag->get('address.street'));
     }
 
-    public function setStreet(string $street): void
+    public function setStreet(?string $street): void
     {
         $this->dataBag->set('address.street', $street);
     }
@@ -74,7 +74,7 @@ class Address
         return (string)$this->dataBag->get('address.streetNumber');
     }
 
-    public function setStreetNumber(string $streetNumber): void
+    public function setStreetNumber(?string $streetNumber): void
     {
         $this->dataBag->set('address.streetNumber', $streetNumber);
     }
@@ -84,7 +84,7 @@ class Address
         return (string)$this->dataBag->get('address.streetNumberAddition');
     }
 
-    public function setStreetNumberAddition(string $streetNumberAddition): void
+    public function setStreetNumberAddition(?string $streetNumberAddition): void
     {
         $this->dataBag->set('address.streetNumberAddition', $streetNumberAddition);
     }
@@ -94,7 +94,7 @@ class Address
         return trim((string)$this->dataBag->get('address.zipcode'));
     }
 
-    public function setZipcode(string $zipcode): void
+    public function setZipcode(?string $zipcode): void
     {
         $this->dataBag->set('address.zipcode', $zipcode);
     }
@@ -104,7 +104,7 @@ class Address
         return trim((string)$this->dataBag->get('address.city'));
     }
 
-    public function setCity(string $city): void
+    public function setCity(?string $city): void
     {
         $this->dataBag->set('address.city', $city);
     }
@@ -124,7 +124,7 @@ class Address
         return trim((string)$this->dataBag->get('address.type'));
     }
 
-    public function setType(string $type): void
+    public function setType(?string $type): void
     {
         $this->dataBag->set('address.type', $type);
     }

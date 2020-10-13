@@ -119,11 +119,11 @@ class PhoneNumber
         return $this->toString();
     }
 
-    public function setPhoneNumber(string $value): void
+    public function setPhoneNumber(?string $value): void
     {
         try {
             /** @var \libphonenumber\PhoneNumber $phoneNumber */
-            $phoneNumber = self::$phoneNumberUtil->parse($value, 'NL');
+            $phoneNumber = self::$phoneNumberUtil->parse((string)$value, 'NL');
             $countryCode = (string)($phoneNumber->getCountryCode() ?? 0);
             $nationalNumber = (string)$phoneNumber->getNationalNumber();
             $split = \preg_match('/^(1[035]|2[0346]|3[03568]|4[03568]|5[0358]|7\d)/', $nationalNumber) === 1 ? 2 : 3;

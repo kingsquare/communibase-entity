@@ -52,9 +52,11 @@ class Email
      */
     public static function fromEmailAddress(string $emailAddress)
     {
-        return static::fromEmailAddressData([
-            'emailAddress' => $emailAddress,
-        ]);
+        return static::fromEmailAddressData(
+            [
+                'emailAddress' => $emailAddress,
+            ]
+        );
     }
 
     public function getEmailAddress(): string
@@ -62,7 +64,7 @@ class Email
         return (string)$this->dataBag->get('email.emailAddress');
     }
 
-    public function setEmailAddress(string $emailAddress): void
+    public function setEmailAddress(?string $emailAddress): void
     {
         $this->dataBag->set('email.emailAddress', $emailAddress);
     }
@@ -72,7 +74,7 @@ class Email
         return (string)$this->dataBag->get('email.type');
     }
 
-    public function setType(string $type): void
+    public function setType(?string $type): void
     {
         $this->dataBag->set('email.type', $type);
     }
