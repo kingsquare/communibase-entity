@@ -1,5 +1,8 @@
 # Change Log
 
+## 5.1.0
+- add CommunibaseIdCollection::fromValidStrings method
+
 ## 5.0.0
 - **[BC break]** strict typing
 - **[BC break]** add CommunibaseIdCollection
