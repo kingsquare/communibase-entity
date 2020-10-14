@@ -88,4 +88,10 @@ class CommunibaseIdTest extends TestCase
             \json_encode(CommunibaseId::fromString(self::VALID_ID_STRING))
         );
     }
+
+    public function test_invalid_string_returns_an_empty_communibaseId(): void
+    {
+        $id = CommunibaseId::fromValidString('foo');
+        self::assertTrue($id->isEmpty());
+    }
 }

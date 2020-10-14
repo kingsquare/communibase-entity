@@ -41,6 +41,19 @@ final class CommunibaseId implements \JsonSerializable
         return new self($string);
     }
 
+    /**
+     * Assume the string is valid so we don't need to catch a possible exception.
+     * CommunibaseId->isEmpty() === true if the string is invalid.
+     */
+    public static function fromValidString(string $string = null): CommunibaseId
+    {
+        try {
+            return self::fromString($string);
+        } catch (InvalidIdException $e) {
+            return self::create();
+        }
+    }
+
     public function __toString(): string
     {
         return $this->id;

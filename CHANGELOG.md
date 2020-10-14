@@ -1,5 +1,8 @@
 # Change Log
 
+## 5.2.0
+- add fromValidString named constructor
+
 ## 5.1.0
 - add CommunibaseIdCollection::fromValidStrings method
 
