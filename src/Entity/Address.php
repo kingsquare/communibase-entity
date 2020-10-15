@@ -273,7 +273,7 @@ class Address
     {
         if ($latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
             throw new InvalidGeoLocationException(
-                \sprintf('Invalid latitude/longitude: %s, %s', $latitude, $longitude)
+                sprintf('Invalid latitude/longitude: %s, %s', $latitude, $longitude)
             );
         }
     }
