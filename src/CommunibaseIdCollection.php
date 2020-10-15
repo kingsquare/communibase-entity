@@ -43,6 +43,7 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
      */
     public static function fromValidStrings(array $strings): CommunibaseIdCollection
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $collection = new self([]);
         $collection->ids = array_reduce(
             $strings,
