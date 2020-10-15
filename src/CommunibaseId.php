@@ -80,7 +80,7 @@ final class CommunibaseId implements \JsonSerializable
         if ($this->isEmpty()) {
             return null;
         }
-        $timestamp = intval(substr($this->id, 0, 8), 16);
+        $timestamp = \intval(substr($this->id, 0, 8), 16);
         return new \DateTimeImmutable('@' . $timestamp);
     }
 

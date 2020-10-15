@@ -22,11 +22,11 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
      */
     private function __construct(array $strings)
     {
-        $this->ids = \array_map(
+        $this->ids = array_map(
             static function (string $string) {
                 return CommunibaseId::fromString($string);
             },
-            \array_unique(\array_filter($strings))
+            array_unique(array_filter($strings))
         );
     }
 
@@ -43,8 +43,9 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
      */
     public static function fromValidStrings(array $strings): CommunibaseIdCollection
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $collection = new self([]);
-        $collection->ids = \array_reduce(
+        $collection->ids = array_reduce(
             $strings,
             static function (array $communibaseIds, $string) {
                 try {
@@ -92,7 +93,7 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
      */
     public function toStrings(): array
     {
-        return \array_map('\strval', $this->ids);
+        return array_map('\strval', $this->ids);
     }
 
     public function toObjectQueryArray(): array

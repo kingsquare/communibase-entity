@@ -78,7 +78,7 @@ class PhoneNumber
         $countryCode = $this->dataBag->get('phone.countryCode');
         $areaCode = $this->dataBag->get('phone.areaCode');
         $subscriberNumber = $this->dataBag->get('phone.subscriberNumber');
-        if (!empty($countryCode) && \strpos($countryCode, '+') !== 0) {
+        if (!empty($countryCode) && strpos($countryCode, '+') !== 0) {
             $countryCode = '+' . $countryCode;
         }
 
@@ -87,16 +87,16 @@ class PhoneNumber
         }
         if (empty($areaCode)) {
             $areaCode = ''; // remove '0' values
-            $format = (string)\preg_replace('/\(\s?a\s?\)\s?/', '', $format);
+            $format = (string)preg_replace('/\(\s?a\s?\)\s?/', '', $format);
         }
-        if (!empty($countryCode) && \strpos($format, 'c') !== false) {
-            $areaCode = \ltrim($areaCode, '0');
+        if (!empty($countryCode) && strpos($format, 'c') !== false) {
+            $areaCode = ltrim($areaCode, '0');
         }
-        if (strpos($areaCode, '0') !== 0 && (empty($countryCode) || \strpos($format, 'c') === false)) {
+        if (strpos($areaCode, '0') !== 0 && (empty($countryCode) || strpos($format, 'c') === false)) {
             $areaCode = '0' . $areaCode;
         }
         return trim(
-            (string)\preg_replace_callback(
+            (string)preg_replace_callback(
                 '![cas]!',
                 static function (array $matches) use ($countryCode, $areaCode, $subscriberNumber) {
                     switch ($matches[0]) {
@@ -126,12 +126,12 @@ class PhoneNumber
             $phoneNumber = self::$phoneNumberUtil->parse((string)$value, 'NL');
             $countryCode = (string)($phoneNumber->getCountryCode() ?? 0);
             $nationalNumber = (string)$phoneNumber->getNationalNumber();
-            $split = \preg_match('/^(1[035]|2[0346]|3[03568]|4[03568]|5[0358]|7\d)/', $nationalNumber) === 1 ? 2 : 3;
-            if (\strpos($nationalNumber, '6') === 0) {
+            $split = preg_match('/^(1[035]|2[0346]|3[03568]|4[03568]|5[0358]|7\d)/', $nationalNumber) === 1 ? 2 : 3;
+            if (strpos($nationalNumber, '6') === 0) {
                 $split = 1;
             }
-            $areaCode = \substr($nationalNumber, 0, $split);
-            $subscriberNumber = \substr($nationalNumber, $split);
+            $areaCode = substr($nationalNumber, 0, $split);
+            $subscriberNumber = substr($nationalNumber, $split);
         } catch (NumberParseException $e) {
             $countryCode = '';
             $areaCode = '';
