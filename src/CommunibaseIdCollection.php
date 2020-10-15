@@ -26,7 +26,7 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
             static function (string $string) {
                 return CommunibaseId::fromString($string);
             },
-            \array_filter(\array_unique($strings))
+            \array_unique(\array_filter($strings))
         );
     }
 
@@ -71,7 +71,7 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
 
     public function count(): int
     {
-        return count($this->ids);
+        return \count($this->ids);
     }
 
     public function isEmpty(): bool
@@ -92,7 +92,7 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
      */
     public function toStrings(): array
     {
-        return \array_map('strval', $this->ids);
+        return \array_map('\strval', $this->ids);
     }
 
     public function toObjectQueryArray(): array
