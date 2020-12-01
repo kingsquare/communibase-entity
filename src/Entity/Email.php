@@ -28,10 +28,7 @@ final class Email
         $this->dataBag->addEntityData('email', $emailAddressData);
     }
 
-    /**
-     * @return static
-     */
-    public static function create()
+    public static function create(): Email
     {
         return new static();
     }
@@ -39,7 +36,7 @@ final class Email
     /**
      * @return static
      */
-    public static function fromEmailAddressData(array $emailAddressData = null)
+    public static function fromEmailAddressData(array $emailAddressData = null): Email
     {
         if ($emailAddressData === null) {
             $emailAddressData = [];
@@ -47,10 +44,7 @@ final class Email
         return new static($emailAddressData);
     }
 
-    /**
-     * @return static
-     */
-    public static function fromEmailAddress(string $emailAddress)
+    public static function fromEmailAddress(string $emailAddress): Email
     {
         return static::fromEmailAddressData(
             [

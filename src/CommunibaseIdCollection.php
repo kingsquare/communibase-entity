@@ -83,7 +83,7 @@ final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \
     /**
      * @return \ArrayIterator|\Traversable|CommunibaseId[]
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->ids);
     }

@@ -31,10 +31,7 @@ final class PhoneNumber
         self::$phoneNumberUtil = self::$phoneNumberUtil ?? PhoneNumberUtil::getInstance();
     }
 
-    /**
-     * @return static
-     */
-    public static function create()
+    public static function create(): PhoneNumber
     {
         return new static();
     }
@@ -42,15 +39,12 @@ final class PhoneNumber
     /**
      * @return static
      */
-    public static function fromPhoneNumberData(array $phoneNumberData = null)
+    public static function fromPhoneNumberData(array $phoneNumberData = null): PhoneNumber
     {
         return new static($phoneNumberData ?? []);
     }
 
-    /**
-     * @return static
-     */
-    public static function fromString(string $phoneNumberString)
+    public static function fromString(string $phoneNumberString): PhoneNumber
     {
         $phoneNumber = static::create();
         $phoneNumber->setPhoneNumber($phoneNumberString);

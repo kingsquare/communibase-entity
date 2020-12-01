@@ -30,10 +30,7 @@ final class Address
         $this->dataBag->addEntityData('address', $addressData);
     }
 
-    /**
-     * @return static
-     */
-    public static function create()
+    public static function create(): Address
     {
         return new static();
     }
@@ -41,7 +38,7 @@ final class Address
     /**
      * @return static
      */
-    public static function fromAddressData(array $addressData = null)
+    public static function fromAddressData(array $addressData = null): Address
     {
         if ($addressData === null) {
             $addressData = [];
@@ -134,7 +131,7 @@ final class Address
         return CommunibaseId::fromString($this->dataBag->get('address._id'));
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toString();
     }
