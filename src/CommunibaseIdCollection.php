@@ -81,7 +81,7 @@ final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \
     }
 
     /**
-     * @return \ArrayIterator|\Traversable|CommunibaseId[]
+     * @return \ArrayIterator<int, CommunibaseId>
      */
     public function getIterator(): \ArrayIterator
     {
@@ -89,7 +89,7 @@ final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \
     }
 
     /**
-     * @return array|string[]
+     * @return string[]
      */
     public function toStrings(): array
     {

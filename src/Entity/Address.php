@@ -226,9 +226,6 @@ final class Address
         return !empty($this->dataBag->get('address.point'));
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return empty(
