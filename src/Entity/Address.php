@@ -49,6 +49,11 @@ class Address
         return new static($addressData);
     }
 
+    public function getId(): CommunibaseId
+    {
+        return CommunibaseId::fromValidString($this->dataBag->get('address._id'));
+    }
+
     public function getProperty(): string
     {
         return (string)$this->dataBag->get('address.property');
@@ -127,11 +132,6 @@ class Address
     public function setType(?string $type): void
     {
         $this->dataBag->set('address.type', $type);
-    }
-
-    public function getId(): CommunibaseId
-    {
-        return CommunibaseId::fromString($this->dataBag->get('address._id'));
     }
 
     public function __toString()

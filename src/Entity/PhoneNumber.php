@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Communibase\Entity;
 
+use Communibase\CommunibaseId;
 use Communibase\DataBag;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
@@ -117,6 +118,11 @@ class PhoneNumber
     public function __toString(): string
     {
         return $this->toString();
+    }
+
+    public function getId(): CommunibaseId
+    {
+        return CommunibaseId::fromValidString($this->dataBag->get('phone._id'));
     }
 
     public function setPhoneNumber(?string $value): void

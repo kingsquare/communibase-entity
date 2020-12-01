@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Communibase\Entity;
 
+use Communibase\CommunibaseId;
 use Communibase\DataBag;
 
 /**
@@ -57,6 +58,11 @@ class Email
                 'emailAddress' => $emailAddress,
             ]
         );
+    }
+
+    public function getId(): CommunibaseId
+    {
+        return CommunibaseId::fromValidString($this->dataBag->get('email._id'));
     }
 
     public function getEmailAddress(): string
