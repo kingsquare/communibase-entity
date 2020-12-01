@@ -12,7 +12,7 @@ use libphonenumber\PhoneNumberUtil;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-class PhoneNumber
+final class PhoneNumber
 {
     /**
      * @var DataBag

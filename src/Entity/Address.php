@@ -14,7 +14,7 @@ use Communibase\Exception\InvalidGeoLocationException;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-class Address
+final class Address
 {
     /**
      * @var DataBag;

@@ -12,7 +12,7 @@ use Communibase\DataBag;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-class Email
+final class Email
 {
     /**
      * @var DataBag

@@ -10,7 +10,7 @@ use Communibase\Exception\InvalidIdException;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSerializable
+final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSerializable
 {
     /**
      * @var CommunibaseId[]
