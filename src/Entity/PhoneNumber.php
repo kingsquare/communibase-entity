@@ -19,8 +19,14 @@ final class PhoneNumber
      */
     private $dataBag;
 
+    /**
+     * @var PhoneNumberUtil
+     */
     private static $phoneNumberUtil;
 
+    /**
+     * @param array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int } $phoneNumberData
+     */
     private function __construct(array $phoneNumberData = [])
     {
         $this->dataBag = DataBag::create();
@@ -37,7 +43,7 @@ final class PhoneNumber
     }
 
     /**
-     * @return static
+     * @param ?array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int } $phoneNumberData
      */
     public static function fromPhoneNumberData(array $phoneNumberData = null): PhoneNumber
     {
@@ -145,6 +151,9 @@ final class PhoneNumber
         }
     }
 
+    /**
+     * @return ?array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int }
+     */
     public function getState(): ?array
     {
         if (!array_filter([$this->dataBag->get('phone.areaCode'), $this->dataBag->get('phone.subscriberNumber')])) {

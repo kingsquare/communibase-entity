@@ -19,6 +19,9 @@ final class Email
      */
     private $dataBag;
 
+    /**
+     * @param array{'_id'?: string, 'type'?: string, 'emailAddress'?: string } $emailAddressData
+     */
     private function __construct(array $emailAddressData = [])
     {
         if (empty($emailAddressData['type'])) {
@@ -34,7 +37,7 @@ final class Email
     }
 
     /**
-     * @return static
+     * @param ?array{'_id'?: string, 'type'?: string, 'emailAddress'?: string } $emailAddressData
      */
     public static function fromEmailAddressData(array $emailAddressData = null): Email
     {
@@ -82,6 +85,9 @@ final class Email
         }
     }
 
+    /**
+     * @return ?array{'_id'?: string, 'type'?: string, 'emailAddress'?: string }
+     */
     public function getState(): ?array
     {
         if (empty($this->getEmailAddress())) {

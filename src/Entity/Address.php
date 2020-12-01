@@ -21,6 +21,9 @@ final class Address
      */
     private $dataBag;
 
+    /**
+     * @param array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{float, float}, latitude?: float, longitude?: float } $addressData
+     */
     private function __construct(array $addressData = [])
     {
         $this->dataBag = DataBag::create();
@@ -36,7 +39,7 @@ final class Address
     }
 
     /**
-     * @return static
+     * @param ?array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{float, float}, latitude?: float, longitude?: float } $addressData
      */
     public static function fromAddressData(array $addressData = null): Address
     {
@@ -169,7 +172,7 @@ final class Address
     }
 
     /**
-     * @return float[]|null
+     * @return ?array<float>
      */
     public function getGeoLocation(): ?array
     {
@@ -250,7 +253,7 @@ final class Address
     }
 
     /**
-     * @return array|null
+     * @return ?array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{float, float}, latitude?: float, longitude?: float }
      */
     public function getState(): ?array
     {

@@ -9,6 +9,8 @@ use Communibase\Exception\InvalidIdException;
 /**
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
+ *
+ * @implements \IteratorAggregate<CommunibaseId>
  */
 final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSerializable
 {
@@ -18,6 +20,7 @@ final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \
     private $ids;
 
     /**
+     * @param string[] $strings
      * @throws InvalidIdException
      */
     private function __construct(array $strings)
@@ -31,6 +34,7 @@ final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \
     }
 
     /**
+     * @param string[] $strings
      * @throws InvalidIdException
      */
     public static function fromStrings(array $strings): CommunibaseIdCollection
@@ -40,6 +44,7 @@ final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \
 
     /**
      * Filter out all invalid strings
+     * @param string[] $strings
      */
     public static function fromValidStrings(array $strings): CommunibaseIdCollection
     {
@@ -96,6 +101,9 @@ final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \
         return array_map('\strval', $this->ids);
     }
 
+    /**
+     * @return array{array{"$ObjectId":string} }
+     */
     public function toObjectQueryArray(): array
     {
         return array_reduce(
