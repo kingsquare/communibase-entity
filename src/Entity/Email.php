@@ -17,9 +17,9 @@ final class Email
     /**
      * @var DataBag
      */
-    protected $dataBag;
+    private $dataBag;
 
-    protected function __construct(array $emailAddressData = [])
+    private function __construct(array $emailAddressData = [])
     {
         if (empty($emailAddressData['type'])) {
             $emailAddressData['type'] = 'private';

@@ -19,9 +19,9 @@ final class Address
     /**
      * @var DataBag;
      */
-    protected $dataBag;
+    private $dataBag;
 
-    protected function __construct(array $addressData = [])
+    private function __construct(array $addressData = [])
     {
         $this->dataBag = DataBag::create();
         if ($addressData === []) {
@@ -269,7 +269,7 @@ final class Address
     /**
      * @throws InvalidGeoLocationException
      */
-    protected function guardAgainstInvalidLatLong(float $latitude, float $longitude): void
+    private function guardAgainstInvalidLatLong(float $latitude, float $longitude): void
     {
         if ($latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
             throw new InvalidGeoLocationException(

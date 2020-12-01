@@ -17,11 +17,11 @@ final class PhoneNumber
     /**
      * @var DataBag
      */
-    protected $dataBag;
+    private $dataBag;
 
     private static $phoneNumberUtil;
 
-    protected function __construct(array $phoneNumberData = [])
+    private function __construct(array $phoneNumberData = [])
     {
         $this->dataBag = DataBag::create();
         if (empty($phoneNumberData['type'])) {
