@@ -53,12 +53,12 @@ class PhoneNumberTest extends TestCase
         $expected = empty($countryCode . $areaCode . $subscriberNumber)
             ? null
             : [
+                'type' => 'private',
                 'countryCode' => $countryCode,
                 'areaCode' => $areaCode,
                 'subscriberNumber' => $subscriberNumber,
-                'type' => 'private',
             ];
-        self::assertEquals($expected, $phoneNumber->getState());
+        self::assertSame($expected, $phoneNumber->getState());
     }
 
     public function provider(): array
