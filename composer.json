@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.3",
     "kingsquare/communibase-databag": "^v2",
     "ext-json": "*",
     "giggsey/libphonenumber-for-php": "^8.12"
