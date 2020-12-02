@@ -64,18 +64,18 @@ class PhoneNumberTest extends TestCase
     public function provider(): array
     {
         return [
-            'c (a) s without countrycode' => ['', '06', '123456789', 'c (a) s', '(06) 123456789'],
-            'c (a) s with countrycode' => ['+31', '06', '123456789', 'c (a) s', '+31 (6) 123456789'],
-            '(a) s with countrycode' => ['+31', '06', '123456789', '(a) s', '(06) 123456789'],
-            'cas with countrycode' => ['+31', '06', '123456789', 'cas', '+316123456789'],
-            'as with countrycode' => ['+31', '06', '123456789', 'as', '06123456789'],
-            'a-s with countrycode' => ['+31', '06', '123456789', 'a-s', '06-123456789'],
-            'no format as international number' => ['+31', '06', '123456789', null, '+31 (6) 123456789'],
+            'c (a) s without countrycode' => ['', '6', '123456789', 'c (a) s', '(06) 123456789'],
+            'c (a) s with countrycode' => ['+31', '6', '123456789', 'c (a) s', '+31 (6) 123456789'],
+            '(a) s with countrycode' => ['+31', '6', '123456789', '(a) s', '(06) 123456789'],
+            'cas with countrycode' => ['+31', '6', '123456789', 'cas', '+316123456789'],
+            'as with countrycode' => ['+31', '6', '123456789', 'as', '06123456789'],
+            'a-s with countrycode' => ['+31', '6', '123456789', 'a-s', '06-123456789'],
+            'no format as international number' => ['+31', '6', '123456789', null, '+31 (6) 123456789'],
             'no format but with leading 0' => ['', '0', '06123456789', null, '06123456789'],
             'unknown format' => ['', '0', '06123456789', 'henk', 'henk'],
             'empty area and subscriber' => ['+31', '', '', '', ''],
             'fix countryCode prefix' => ['31', '251', '123456', null, '+31 (251) 123456'],
-            'fix missing leading zero' => ['31', '251', '123456', '(a) s', '(0251) 123456'],
+            'ignore leading zero' => ['31', '0251', '123456', '(a) s', '(0251) 123456'],
         ];
     }
 
