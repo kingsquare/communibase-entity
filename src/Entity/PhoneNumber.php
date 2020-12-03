@@ -25,7 +25,7 @@ final class PhoneNumber
     private static $phoneNumberUtil;
 
     /**
-     * @param array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int } $phoneNumberData
+     * @param array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int} $phoneNumberData
      */
     private function __construct(array $phoneNumberData = [])
     {
@@ -43,7 +43,7 @@ final class PhoneNumber
     }
 
     /**
-     * @param ?array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int } $phoneNumberData
+     * @param ?array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int} $phoneNumberData
      */
     public static function fromPhoneNumberData(array $phoneNumberData = null): PhoneNumber
     {
@@ -152,7 +152,7 @@ final class PhoneNumber
     }
 
     /**
-     * @return ?array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int }
+     * @return ?array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int}
      */
     public function getState(): ?array
     {

@@ -102,7 +102,7 @@ final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \
     }
 
     /**
-     * @return array{array{"$ObjectId":string} }
+     * @return array{array{"$ObjectId":string}}
      */
     public function toObjectQueryArray(): array
     {
