@@ -19,7 +19,10 @@ class Email
      */
     protected $dataBag;
 
-    protected function __construct(array $emailAddressData = [])
+    /**
+     * @param array{'_id'?: string, 'type'?: string, 'emailAddress'?: string} $emailAddressData
+     */
+    final private function __construct(array $emailAddressData = [])
     {
         if (empty($emailAddressData['type'])) {
             $emailAddressData['type'] = 'private';
@@ -28,18 +31,15 @@ class Email
         $this->dataBag->addEntityData('email', $emailAddressData);
     }
 
-    /**
-     * @return static
-     */
-    public static function create()
+    public static function create(): Email
     {
         return new static();
     }
 
     /**
-     * @return static
+     * @param ?array{'_id'?: string, 'type'?: string, 'emailAddress'?: string} $emailAddressData
      */
-    public static function fromEmailAddressData(array $emailAddressData = null)
+    public static function fromEmailAddressData(array $emailAddressData = null): Email
     {
         if ($emailAddressData === null) {
             $emailAddressData = [];
@@ -47,10 +47,7 @@ class Email
         return new static($emailAddressData);
     }
 
-    /**
-     * @return static
-     */
-    public static function fromEmailAddress(string $emailAddress)
+    public static function fromEmailAddress(string $emailAddress): Email
     {
         return static::fromEmailAddressData(
             [
@@ -88,6 +85,9 @@ class Email
         }
     }
 
+    /**
+     * @return ?array{'_id'?: string, 'type'?: string, 'emailAddress'?: string}
+     */
     public function getState(): ?array
     {
         if (empty($this->getEmailAddress())) {

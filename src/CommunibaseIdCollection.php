@@ -9,8 +9,10 @@ use Communibase\Exception\InvalidIdException;
 /**
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
+ *
+ * @implements \IteratorAggregate<CommunibaseId>
  */
-class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSerializable
+final class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSerializable
 {
     /**
      * @var CommunibaseId[]
@@ -18,6 +20,7 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
     private $ids;
 
     /**
+     * @param string[] $strings
      * @throws InvalidIdException
      */
     private function __construct(array $strings)
@@ -31,6 +34,7 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
     }
 
     /**
+     * @param string[] $strings
      * @throws InvalidIdException
      */
     public static function fromStrings(array $strings): CommunibaseIdCollection
@@ -40,6 +44,7 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
 
     /**
      * Filter out all invalid strings
+     * @param string[] $strings
      */
     public static function fromValidStrings(array $strings): CommunibaseIdCollection
     {
@@ -81,21 +86,24 @@ class CommunibaseIdCollection implements \Countable, \IteratorAggregate, \JsonSe
     }
 
     /**
-     * @return \ArrayIterator|\Traversable|CommunibaseId[]
+     * @return \ArrayIterator<int, CommunibaseId>
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->ids);
     }
 
     /**
-     * @return array|string[]
+     * @return string[]
      */
     public function toStrings(): array
     {
         return array_map('\strval', $this->ids);
     }
 
+    /**
+     * @return array{array{"$ObjectId":string}}
+     */
     public function toObjectQueryArray(): array
     {
         return array_reduce(

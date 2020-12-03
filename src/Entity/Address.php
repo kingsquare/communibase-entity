@@ -21,7 +21,10 @@ class Address
      */
     protected $dataBag;
 
-    protected function __construct(array $addressData = [])
+    /**
+     * @param array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{coordinates: array{float, float}}, latitude?: float, longitude?: float} $addressData
+     */
+    final private function __construct(array $addressData = [])
     {
         $this->dataBag = DataBag::create();
         if ($addressData === []) {
@@ -30,18 +33,15 @@ class Address
         $this->dataBag->addEntityData('address', $addressData);
     }
 
-    /**
-     * @return static
-     */
-    public static function create()
+    public static function create(): Address
     {
         return new static();
     }
 
     /**
-     * @return static
+     * @param ?array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{coordinates: array{float, float}}, latitude?: float, longitude?: float} $addressData
      */
-    public static function fromAddressData(array $addressData = null)
+    public static function fromAddressData(array $addressData = null): Address
     {
         if ($addressData === null) {
             $addressData = [];
@@ -134,7 +134,7 @@ class Address
         return CommunibaseId::fromString($this->dataBag->get('address._id'));
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toString();
     }
@@ -172,7 +172,7 @@ class Address
     }
 
     /**
-     * @return float[]|null
+     * @return ?array<float>
      */
     public function getGeoLocation(): ?array
     {
@@ -229,9 +229,6 @@ class Address
         return !empty($this->dataBag->get('address.point'));
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return empty(
@@ -256,7 +253,7 @@ class Address
     }
 
     /**
-     * @return array|null
+     * @return ?array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{coordinates: array{float, float}}, latitude?: float, longitude?: float}
      */
     public function getState(): ?array
     {
@@ -269,7 +266,7 @@ class Address
     /**
      * @throws InvalidGeoLocationException
      */
-    protected function guardAgainstInvalidLatLong(float $latitude, float $longitude): void
+    private function guardAgainstInvalidLatLong(float $latitude, float $longitude): void
     {
         if ($latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
             throw new InvalidGeoLocationException(

@@ -19,9 +19,15 @@ class PhoneNumber
      */
     protected $dataBag;
 
+    /**
+     * @var PhoneNumberUtil
+     */
     private static $phoneNumberUtil;
 
-    protected function __construct(array $phoneNumberData = [])
+    /**
+     * @param array{'_id'?: string, 'type'?: string, 'areaCode'?: string|int, 'countryCode'?: string|int, 'subscriberNumber'?: string|int} $phoneNumberData
+     */
+    final private function __construct(array $phoneNumberData = [])
     {
         $this->dataBag = DataBag::create();
         if (empty($phoneNumberData['type'])) {
@@ -31,26 +37,20 @@ class PhoneNumber
         self::$phoneNumberUtil = self::$phoneNumberUtil ?? PhoneNumberUtil::getInstance();
     }
 
-    /**
-     * @return static
-     */
-    public static function create()
+    public static function create(): PhoneNumber
     {
         return new static();
     }
 
     /**
-     * @return static
+     * @param ?array{'_id'?: string, 'type'?: string, 'areaCode'?: string|int, 'countryCode'?: string|int, 'subscriberNumber'?: string|int} $phoneNumberData
      */
-    public static function fromPhoneNumberData(array $phoneNumberData = null)
+    public static function fromPhoneNumberData(array $phoneNumberData = null): PhoneNumber
     {
         return new static($phoneNumberData ?? []);
     }
 
-    /**
-     * @return static
-     */
-    public static function fromString(string $phoneNumberString)
+    public static function fromString(string $phoneNumberString): PhoneNumber
     {
         $phoneNumber = static::create();
         $phoneNumber->setPhoneNumber($phoneNumberString);
@@ -151,6 +151,9 @@ class PhoneNumber
         }
     }
 
+    /**
+     * @return ?array{'_id'?: string, 'type'?: string, 'areaCode'?: string|int, 'countryCode'?: string|int, 'subscriberNumber'?: string|int}
+     */
     public function getState(): ?array
     {
         if (!array_filter([$this->dataBag->get('phone.areaCode'), $this->dataBag->get('phone.subscriberNumber')])) {
