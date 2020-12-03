@@ -17,7 +17,7 @@ class Email
     /**
      * @var DataBag
      */
-    private $dataBag;
+    protected $dataBag;
 
     /**
      * @param array{'_id'?: string, 'type'?: string, 'emailAddress'?: string} $emailAddressData

@@ -17,7 +17,7 @@ class PhoneNumber
     /**
      * @var DataBag
      */
-    private $dataBag;
+    protected $dataBag;
 
     /**
      * @var PhoneNumberUtil

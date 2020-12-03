@@ -19,7 +19,7 @@ class Address
     /**
      * @var DataBag;
      */
-    private $dataBag;
+    protected $dataBag;
 
     /**
      * @param array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{float, float}, latitude?: float, longitude?: float} $addressData
