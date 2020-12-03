@@ -12,7 +12,7 @@ use Communibase\DataBag;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-final class Email
+class Email
 {
     /**
      * @var DataBag
@@ -22,7 +22,7 @@ final class Email
     /**
      * @param array{'_id'?: string, 'type'?: string, 'emailAddress'?: string} $emailAddressData
      */
-    private function __construct(array $emailAddressData = [])
+    final private function __construct(array $emailAddressData = [])
     {
         if (empty($emailAddressData['type'])) {
             $emailAddressData['type'] = 'private';

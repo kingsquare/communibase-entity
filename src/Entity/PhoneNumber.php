@@ -12,7 +12,7 @@ use libphonenumber\PhoneNumberUtil;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-final class PhoneNumber
+class PhoneNumber
 {
     /**
      * @var DataBag
@@ -27,7 +27,7 @@ final class PhoneNumber
     /**
      * @param array{'_id'?: string, 'type'?: string, 'areaCode'?: int, 'countryCode'?: string, 'subscriberNumber'?: string|int} $phoneNumberData
      */
-    private function __construct(array $phoneNumberData = [])
+    final private function __construct(array $phoneNumberData = [])
     {
         $this->dataBag = DataBag::create();
         if (empty($phoneNumberData['type'])) {

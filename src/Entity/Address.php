@@ -14,7 +14,7 @@ use Communibase\Exception\InvalidGeoLocationException;
  * @author Kingsquare (source@kingsquare.nl)
  * @copyright Copyright (c) Kingsquare BV (http://www.kingsquare.nl)
  */
-final class Address
+class Address
 {
     /**
      * @var DataBag;
@@ -24,7 +24,7 @@ final class Address
     /**
      * @param array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{float, float}, latitude?: float, longitude?: float} $addressData
      */
-    private function __construct(array $addressData = [])
+    final private function __construct(array $addressData = [])
     {
         $this->dataBag = DataBag::create();
         if ($addressData === []) {
