@@ -13,6 +13,9 @@ use PHPUnit\Framework\TestCase;
  */
 class PhoneNumberTest extends TestCase
 {
+    /**
+     * @return array<string, array<string>>
+     */
     public function dataProvider(): array
     {
         return [
@@ -61,6 +64,9 @@ class PhoneNumberTest extends TestCase
         self::assertEquals($expected, $phoneNumber->getState());
     }
 
+    /**
+     * @return array<string, array<string|null>>
+     */
     public function provider(): array
     {
         return [

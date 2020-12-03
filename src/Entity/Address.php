@@ -22,7 +22,7 @@ class Address
     protected $dataBag;
 
     /**
-     * @param array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{float, float}, latitude?: float, longitude?: float} $addressData
+     * @param array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{coordinates: array{float, float}}, latitude?: float, longitude?: float} $addressData
      */
     final private function __construct(array $addressData = [])
     {
@@ -39,7 +39,7 @@ class Address
     }
 
     /**
-     * @param ?array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{float, float}, latitude?: float, longitude?: float} $addressData
+     * @param ?array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{coordinates: array{float, float}}, latitude?: float, longitude?: float} $addressData
      */
     public static function fromAddressData(array $addressData = null): Address
     {
@@ -253,7 +253,7 @@ class Address
     }
 
     /**
-     * @return ?array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{float, float}, latitude?: float, longitude?: float}
+     * @return ?array{'_id'?: string, 'type'?: string, 'property'?: string, 'street'?: string, 'streetNumber'?: string, 'streetNumberAddition'?: string, 'zipcode'?: string, 'city'?: string, 'countryCode'?: string, point?: array{coordinates: array{float, float}}, latitude?: float, longitude?: float}
      */
     public function getState(): ?array
     {

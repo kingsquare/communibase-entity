@@ -49,6 +49,9 @@ class AddressTest extends TestCase
         self::assertSame($value, $address->{'get' . $property}());
     }
 
+    /**
+     * @return array<array<string>>
+     */
     public function setSetterProvider(): array
     {
         return [
@@ -188,6 +191,9 @@ class AddressTest extends TestCase
         );
     }
 
+    /**
+     * @return array<array<float, float>>
+     */
     public function invalidGeolocationProvider(): array
     {
         return [

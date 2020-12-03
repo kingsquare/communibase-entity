@@ -42,6 +42,9 @@ class CommunibaseIdTest extends TestCase
         self::assertEquals(self::VALID_ID_STRING, $id->toString());
     }
 
+    /**
+     * @return array<string, array<string>>
+     */
     public function invalidStringSources(): array
     {
         return [
